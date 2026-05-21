@@ -1,0 +1,238 @@
+/* ===== MAIN CONTAINER ===== */
+
+.attendance-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+
+.attendance-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 22px;
+}
+.attendance-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* ===== RIGHT SIDE ===== */
+
+.attendance-right{
+  display: flex;
+  width: 100%;
+  max-width: 940px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.attendance-actions{
+  display: flex;
+  gap: 15px;
+
+  position: relative;
+  z-index: 100;
+}
+/* ===== BUTTONS ===== */
+
+.attendance-actions{
+  display: flex;
+  gap: 15px;
+}
+
+.punch-in-btn,
+.punch-out-btn{
+  border: none;
+
+  padding: 10px 22px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: white;
+
+  transition: all 0.25s ease;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+.punch-in-btn:hover,
+.punch-out-btn:hover{
+  transform: translateY(-2px);
+}
+
+.punch-in-btn {
+  background: #16a34a;
+}
+
+
+.punch-out-btn:hover {
+  background: #b91c1c;
+}
+
+.punch-out-btn:disabled{
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+/* ===== STATS ===== */
+
+.attendance-stats {
+
+  align-items: center;
+  justify-content: flex-end;
+
+  display: flex;
+  gap: 15px
+}
+.attendance-stats span{
+  padding: 10px 16px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.attendance-stats .att-present {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.attendance-stats .att-absent {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.attendance-stats .att-leave {
+  background: #ffedd5;
+  color: #ea580c;
+}
+
+.attendance-stats .att-late {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+/* ===== CARD ===== */
+
+.calendar-card {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top:0px;
+  padding-top:0px;
+  position: relative;
+  z-index: 1;
+
+}
+
+/* ===== WRAPPER ===== */
+
+.calendar-wrapper {
+  width: 100%;
+  padding: 28px;
+  margin-top: 0;
+  max-width: 900px;
+
+ background: linear-gradient(
+  to bottom right,
+  #ffffff,
+  #eef2ff
+);
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+ border: 1px solid #eef2f7;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.06),
+    0 2px 8px rgba(0,0,0,0.03);
+
+}
+
+/* ===== LEGEND ===== */
+
+.legend {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legend span {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+/* ===== STATUS COLORS ===== */
+
+.att-present {
+  background: #22c55e;
+}
+
+.att-absent {
+  background: #ef4444;
+}
+
+.att-leave {
+  background: #f97316;
+}
+
+.att-late {
+  background: #3b82f6;
+}
+
+.att-half {
+  background: #9333ea;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+
+  .attendance-container {
+    padding: 15px;
+  }
+
+ 
+
+  .attendance-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .calendar-wrapper {
+    padding: 18px;
+  }
+}
+.calendar-month-year{
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 15px;
+  font-weight: 650;
+
+  color: #64748b;
+
+  margin-bottom: 10px;
+}

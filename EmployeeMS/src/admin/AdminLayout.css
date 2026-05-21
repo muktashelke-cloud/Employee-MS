@@ -1,0 +1,204 @@
+/* MAIN LAYOUT */
+
+.admin-container{
+  display:flex;
+  width:100%;
+  min-height:100vh;
+  overflow:hidden;
+  background:#f3f4f6;
+}
+
+/* SIDEBAR*/
+
+.admin-sidebar{
+  position:fixed;
+
+  top:0;
+  left:0;
+
+  width:105px;
+  min-width:105px;
+
+  height:100vh;
+
+  background-color:#111827;
+  color:white;
+
+  padding:10px 8px;
+
+  display:flex;
+  flex-direction:column;
+
+  box-sizing:border-box;
+
+  overflow-y:auto;
+
+  z-index:100;
+}
+
+.admin-sidebar a{
+  color:white;
+  text-decoration:none;
+  margin:10px 0;
+}
+
+/* Collapsed Sidebar */
+
+.admin-sidebar.collapsed{
+  width:70px;
+  min-width:70px;
+}
+
+.admin-sidebar.collapsed + .admin-main{
+  margin-left:70px;
+}
+
+/* MAIN CONTENT AREA */
+.admin-main{
+  flex:1;
+
+  margin-left:115px;
+
+  min-height:100vh;
+
+  background:#f3f4f6;
+
+  padding:40px 20px 20px;
+
+  overflow-x:hidden;
+
+  display:flex;
+  flex-direction:column;
+
+  box-sizing:border-box;
+
+  transition:0.3s;
+}
+
+/*  PAGE CONTENT */
+
+.admin-content{
+  width:100%;
+  overflow-x:hidden;
+}
+
+/* MANAGE HR PAGE */
+
+.manage-hr-page{
+  width:100%;
+
+  display:flex;
+  flex-direction:column;
+}
+
+/* HEADER */
+
+.manage-hr-header{
+  text-align:center;
+  margin-bottom:20px;
+
+  position:relative;
+}
+
+.manage-hr-header h2{
+  margin:0;
+  font-weight:600;
+}
+
+.manage-hr-header .btn{
+  position:absolute;
+  right:0;
+}
+
+/* CARD WRAPPER */
+
+.hr-card{
+  width:100%;
+  display:flex;
+}
+
+/* CARD STYLING */
+
+.hr-card .card{
+  width:100%;
+
+  border:none;
+
+  border-radius:16px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* TABLE */
+
+.hr-table th,
+.hr-table td{
+  vertical-align:middle;
+}
+
+/* ADD HR BUTTON */
+
+.add-hr-wrapper{
+  width:100%;
+  max-width:900px;
+
+  margin:0 auto 20px auto;
+
+  display:flex;
+  justify-content:flex-start;
+}
+
+.add-hr-wrapper a{
+  width:auto !important;
+  display:inline-block;
+}
+
+.add-hr-wrapper .btn{
+  width:auto;
+  display:inline-block;
+}
+
+/* PAGE CENTER CARD */
+
+.page-container{
+  display:flex;
+  justify-content:center;
+
+  width:100%;
+}
+
+.page-card{
+  width:100%;
+  max-width:1100px;
+
+  background:white;
+
+  border-radius:16px;
+
+  padding:20px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.06);
+
+  overflow-x:auto;
+}
+
+/* RESPONSIVE */
+
+@media (max-width:768px){
+
+  .admin-sidebar{
+    width:70px;
+    min-width:70px;
+  }
+
+  .admin-main{
+    margin-left:70px;
+    padding:16px;
+  }
+
+  .page-card{
+    padding:16px;
+  }
+}

@@ -1,0 +1,255 @@
+/* ===== PAGE ===== */
+
+.timesheet-container{
+  padding:0 20px 20px;
+
+  margin:0 auto;
+
+  width:100%;
+
+  overflow-x:hidden;
+}
+
+/* ===== CARD ===== */
+
+.timesheet-card{
+  margin:0 auto;
+
+  width:1000px;
+}
+
+/* ===== HEADER ===== */
+
+.timesheet-header{
+  display:flex;
+
+  justify-content:flex-end;
+
+  align-items:center;
+
+  margin-bottom:14px;
+}
+
+/* ===== TOPBAR ===== */
+
+.timesheet-topbar{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  width:100%;
+
+  margin:0 0 10px;
+}
+
+/* ===== FILTER ===== */
+
+.filter-section{
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  flex-wrap:wrap;
+}
+
+.filter-select{
+  height:42px;
+
+  padding:0 14px;
+
+  border-radius:12px;
+
+  border:1px solid #dbe3ee;
+
+  background:#fff;
+
+  font-weight:500;
+
+  box-shadow:
+    0 2px 10px rgba(15,23,42,0.04);
+}
+
+/* ===== TABLE ===== */
+
+.timesheet-table{
+  table-layout:fixed;
+
+  width:100%;
+}
+
+/* ===== COLUMN WIDTHS ===== */
+
+.timesheet-table th:nth-child(1),
+.timesheet-table td:nth-child(1){
+  width:140px;
+}
+
+.timesheet-table th:nth-child(2),
+.timesheet-table td:nth-child(2){
+  width:150px;
+}
+
+.timesheet-table th:nth-child(3),
+.timesheet-table td:nth-child(3){
+  width:170px;
+}
+
+.timesheet-table th:nth-child(4),
+.timesheet-table td:nth-child(4){
+  width:150px;
+}
+
+.timesheet-table th:nth-child(5),
+.timesheet-table td:nth-child(5){
+  width:80px;
+}
+
+.timesheet-table th:nth-child(6),
+.timesheet-table td:nth-child(6){
+  width:140px;
+}
+
+.timesheet-table th:nth-child(7),
+.timesheet-table td:nth-child(7){
+  width:120px;
+}
+
+/* ===== EMPLOYEE COLUMN ===== */
+
+.timesheet-table td:nth-child(2){
+  color:#4f46e5;
+
+  font-weight:700;
+}
+
+/* ===== STATUS ===== */
+
+.status-badge{
+  min-width:90px;
+
+  height:30px;
+
+  padding:0 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+
+  font-weight:700;
+}
+
+/* APPROVED */
+
+.status-approved{
+  background:#dcfce7;
+
+  color:#15803d;
+}
+
+/* REJECTED */
+
+.status-rejected{
+  background:#fee2e2;
+
+  color:#b91c1c;
+}
+
+/* ===== PROJECT BADGE ===== */
+
+.project-badge{
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+
+  font-weight:600;
+}
+
+.project-badge.blue{
+  background:#dbeafe;
+
+  color:#2563eb;
+}
+
+.project-badge.green{
+  background:#dcfce7;
+
+  color:#16a34a;
+}
+
+/* ===== ACTION BUTTONS ===== */
+
+.action-buttons{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:6px;
+}
+
+.action-btn{
+  border:none;
+
+  background:none !important;
+
+  box-shadow:none !important;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  width:32px;
+
+  height:32px;
+
+  border-radius:10px;
+
+  transition:.2s ease;
+}
+
+.action-btn:hover{
+  background:#f1f5f9 !important;
+
+  transform:translateY(-1px);
+}
+
+.action-btn svg{
+  width:18px;
+
+  height:18px;
+
+  stroke-width:2.2;
+}
+
+/* EDIT */
+
+.action-btn:first-child{
+  color:#2563eb;
+}
+
+/* DELETE */
+
+.action-btn:last-child{
+  color:#ef4444;
+}
+
+/* ===== SPACING ===== */
+
+.timesheet-card .table-topbar{
+  margin-bottom:8px;
+}
+
+.timesheet-card .common-table-wrapper{
+  margin-top:0;
+}

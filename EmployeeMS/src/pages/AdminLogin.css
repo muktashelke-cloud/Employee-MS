@@ -1,0 +1,59 @@
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+    url("/Images/happy_employee.JPG");
+  background-size: cover;
+  background-position: center;
+}
+
+.admin-login-card {
+  width: 360px;
+  padding: 32px;
+  background: rgba(1, 32, 93, 0.75);
+  border-radius: 14px;
+  color: white;
+  text-align: center;
+}
+
+.admin-login-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+.admin-forgot {
+  display: block;
+  text-align: right;
+  font-size: 13px;
+  color: #9fd3ff;
+  margin-bottom: 14px;
+}
+
+.admin-terms {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.admin-terms label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.admin-login-card button {
+  width: 100%;
+  padding: 12px;
+  background: #22c55e;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+}

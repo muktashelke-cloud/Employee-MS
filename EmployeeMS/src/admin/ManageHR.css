@@ -1,0 +1,174 @@
+.managehr-page{
+  padding:0 20px 20px;
+  margin:0 auto;
+  width:100%;
+  overflow-x:hidden;
+}
+.managehr-card{
+  
+
+  margin:0 auto;
+  width:900px;
+
+}
+
+/* HEADER */
+
+.managehr-header{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+
+  margin-bottom:14px;
+}
+
+.managehr-topbar{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  width:100%;
+
+  margin:0 0 10px;
+}
+
+
+.managehr-table{
+  table-layout:fixed;
+  width:80%;
+}
+
+.managehr-table th:nth-child(1),
+.managehr-table td:nth-child(1){
+  width:40px;
+}
+
+.managehr-table th:nth-child(2),
+.managehr-table td:nth-child(2){
+  width:90px;
+}
+
+.managehr-table th:nth-child(3),
+.managehr-table td:nth-child(3){
+  width:130px;
+}
+
+.managehr-table th:nth-child(4),
+.managehr-table td:nth-child(4){
+  width:120px;
+}
+
+.managehr-table th:nth-child(5),
+.managehr-table td:nth-child(5){
+  width:100px;
+}
+
+.managehr-table th:nth-child(6),
+.managehr-table td:nth-child(6){
+  width:100px;
+}
+.add-hr-btn{
+  box-shadow:
+    0 4px 12px rgba(52,71,103,0.18);
+}
+
+.status-active{
+  background:#edf7f1 !important;
+
+  color:#3f7a5c !important;
+
+  border:1px solid #dbeee3;
+
+  box-shadow:none;
+}
+.status-badge{
+  min-width:72px;
+  height:30px;
+
+  padding:0 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:700;
+}
+.managehr-card .table-topbar{
+  margin-bottom:8px;
+}
+
+.managehr-card .common-table-wrapper{
+  margin-top:0;
+}
+.add-hr-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 !important;
+  gap:8px;
+
+  height:42px;
+  padding:0 20px;
+
+  background:linear-gradient(
+    135deg,
+    #344767,
+    #3d5a80
+    
+  );
+
+  color:#fff;
+
+  border:none;
+  border-radius:14px;
+
+  text-decoration:none;
+
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.3px;
+
+  box-shadow:
+    0 6px 16px rgba(52,71,103,0.22);
+
+  transition:all .25s ease;
+
+  position:relative;
+  overflow:hidden;
+}
+
+/* HOVER */
+
+.add-hr-btn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 10px 22px rgba(52,71,103,0.30);
+
+  background:linear-gradient(
+    135deg,
+    #3d5a80,
+    #4a6b96
+  );
+}
+
+/* CLICK */
+
+.add-hr-btn:active{
+  transform:scale(.98);
+}
+/* REMOVE OUTER BOX */
+
+.managehr-card .common-table-card{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
+
+/* HEADER TEXT */
+
+.managehr-card .common-table th{
+  color:#fff !important;
+}

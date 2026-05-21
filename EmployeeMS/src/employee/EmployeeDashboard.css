@@ -1,0 +1,96 @@
+.employee-dashboard {
+  padding: 30px;
+  background: #f4f7fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Title */
+.dashboard-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #1e293b;
+}
+
+/* Cards Container */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+/* Card Base */
+.dashboard-card {
+  padding: 22px;
+  border-radius: 16px;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Hover */
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Shine Effect */
+.dashboard-card::before {
+  content: "";
+  position: absolute;
+  width: 120%;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  top: 0;
+  left: -120%;
+  transform: skewX(-20deg);
+  transition: 0.5s;
+}
+
+.dashboard-card:hover::before {
+  left: 120%;
+}
+
+/* Text */
+.dashboard-card h4 {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.dashboard-card p {
+  font-size: 20px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* Card Colors */
+.profile {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.salary {
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+}
+
+.attendance {
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+}
+
+.leave {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+.tasks {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  margin-top: 50px;
+  color: #555;
+}

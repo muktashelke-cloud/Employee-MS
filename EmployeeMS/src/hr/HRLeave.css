@@ -1,0 +1,295 @@
+/* ===== PAGE ===== */
+
+.leave-container{
+  padding:18px 32px 10px;
+  width:82%;
+  max-width:1280px;
+  background:#f8fafc;
+}
+
+/* ===== TOOLBAR ===== */
+
+.leave-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.left-tools{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* ===== SEARCH ===== */
+
+.leave-search-box{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.leave-search{
+  width:230px;
+  height:36px;
+
+  padding:0 12px;
+
+  border:1px solid #dbe2ea;
+  border-radius:10px;
+
+  background:#fff;
+
+  transition:.2s ease;
+}
+
+.leave-search:focus{
+  outline:none;
+
+  border-color:#94a3b8;
+
+  box-shadow:
+    0 0 0 3px rgba(148,163,184,.15);
+}
+
+/* ===== FILTER BUTTONS ===== */
+
+.filter-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.filter-buttons button{
+  height:36px;
+
+  padding:0 16px;
+
+  border:none;
+  border-radius:10px;
+
+  background:#f1f5f9;
+  color:#475569;
+
+  font-size:13px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.filter-buttons button:hover{
+  background:#64748b;
+  color:#fff;
+}
+
+.filter-buttons button.active{
+  background:#475569;
+  color:#fff;
+}
+
+/* ===== TABLE ===== */
+
+.leave-table{
+  width:100%;
+}
+
+.leave-table th{
+  text-align:center;
+  vertical-align:middle;
+}
+
+.leave-table td{
+  padding:16px 12px;
+  text-align:center;
+  vertical-align:middle;
+}
+
+/* ===== STATUS ===== */
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-width:90px;
+
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:700;
+
+  text-transform:capitalize;
+}
+
+.status.approved{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status.rejected{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.status.pending{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+/* ===== ACTION BUTTONS ===== */
+
+.action-buttons{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+
+.approve-btn,
+.reject-btn,
+.view-btn{
+  height:34px;
+
+  padding:0 14px;
+
+  border:none;
+  border-radius:8px;
+
+  font-size:13px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+/* APPROVE */
+
+.approve-btn{
+  background:#16a34a;
+  color:#fff;
+}
+
+.approve-btn:hover{
+  background:#15803d;
+}
+
+/* REJECT */
+
+.reject-btn{
+  background:#dc2626;
+  color:#fff;
+}
+
+.reject-btn:hover{
+  background:#b91c1c;
+}
+
+/* VIEW */
+
+.view-btn{
+  background:#e0f2fe;
+  color:#0369a1;
+}
+
+.view-btn:hover{
+  background:#bae6fd;
+}
+
+/* ===== NO FILE ===== */
+
+.no-file{
+  color:#64748b;
+  font-weight:500;
+}
+
+/* ===== MODAL ===== */
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:rgba(0,0,0,.5);
+
+  z-index:999;
+}
+
+.modal-box{
+  width:360px;
+
+  padding:20px;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.18);
+}
+
+.modal-box h4{
+  margin-bottom:14px;
+}
+
+/* ===== MODAL ACTIONS ===== */
+
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+
+  margin-top:14px;
+}
+
+.cancel-btn{
+  height:36px;
+
+  padding:0 16px;
+
+  border:none;
+  border-radius:8px;
+
+  background:#6b7280;
+  color:#fff;
+
+  cursor:pointer;
+}
+
+.cancel-btn:hover{
+  background:#4b5563;
+}
+.leave-container .table-topbar{
+  margin-bottom:-9px !important;
+}
+.table-topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:nowrap;
+
+  width:100%;
+
+  margin-bottom:-6px;
+}
+.leave-container .table-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.leave-container .table-left-content{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.leave-container .table-right-content{
+  margin-top:-12px;
+}

@@ -1,0 +1,74 @@
+/* ===== Common / Global Styles ===== */
+
+/* Login */
+.loginPage {
+  min-height: 100vh;
+  background-image: linear-gradient(
+      rgba(11, 11, 11, 0.4),
+      rgba(10, 10, 10, 0.4)
+    ),
+    url("/Images/happy_employee.JPG");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.loginForm {
+  background-color: rgba(1, 32, 93, 0.6);
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.loginForm input,
+.loginForm button {
+  width: 100%;
+}
+
+/* Forgot Password */
+.forgot-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f8;
+}
+
+.forgot-card {
+  background: white;
+  padding: 30px;
+  width: 350px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Images */
+.employee_image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.employee-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+/* Admin Forms Common */
+.form-control,
+.form-select {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.btn {
+  border-radius: 6px;
+}
+body {
+  margin: 0;
+}

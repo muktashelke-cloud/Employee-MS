@@ -1,0 +1,168 @@
+/* ===== PAGE ===== */
+
+.manage-page{
+  padding:0 20px 20px;
+  margin:0 auto;
+
+  width:100%;
+
+  overflow-x:hidden;
+}
+
+/* ===== CARD ===== */
+
+.manage-card{
+  width:900px;
+
+  margin:0 auto;
+}
+
+/* ===== TOPBAR ===== */
+
+.manage-topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  width:100%;
+
+  margin:0 0 10px;
+}
+
+/* ===== TABLE ===== */
+
+.manage-table{
+  width:80%;
+
+  table-layout:fixed;
+}
+
+/* COLUMN WIDTHS */
+
+.manage-table th:nth-child(1),
+.manage-table td:nth-child(1){
+  width:120px;
+}
+
+.manage-table th:nth-child(2),
+.manage-table td:nth-child(2){
+  width:240px;
+}
+
+.manage-table th:nth-child(3),
+.manage-table td:nth-child(3){
+  width:180px;
+}
+
+.manage-table th:nth-child(4),
+.manage-table td:nth-child(4){
+  width:140px;
+}
+
+.manage-table th:nth-child(5),
+.manage-table td:nth-child(5){
+  width:120px;
+}
+
+/* ===== BUTTON ===== */
+
+.table-add-btn{
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+
+  height:42px;
+
+  padding:0 20px;
+
+  background:linear-gradient(
+    135deg,
+    #344767,
+    #3d5a80
+  );
+
+  color:#fff;
+
+  border:none;
+  border-radius:14px;
+
+  font-size:14px;
+  font-weight:700;
+
+  letter-spacing:.3px;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 6px 16px rgba(52,71,103,0.22);
+
+  transition:all .25s ease;
+}
+
+.table-add-btn:hover{
+  transform:translateY(-2px);
+
+  background:linear-gradient(
+    135deg,
+    #3d5a80,
+    #4a6b96
+  );
+
+  box-shadow:
+    0 10px 22px rgba(52,71,103,0.30);
+}
+
+.table-add-btn:active{
+  transform:scale(.98);
+}
+
+/* ===== STATUS ===== */
+
+.status-active{
+  background:#edf7f1 !important;
+
+  color:#3f7a5c !important;
+
+  border:1px solid #dbeee3;
+
+  box-shadow:none;
+}
+
+.status-badge{
+  min-width:72px;
+
+  height:30px;
+
+  padding:0 12px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:700;
+}
+
+/* ===== TABLE SPACING ===== */
+
+.manage-card .table-topbar{
+  margin-bottom:8px;
+}
+
+.manage-card .common-table-wrapper{
+  margin-top:0;
+  width:100%;
+  margin:0 auto;
+}
+/* REMOVE OUTER BOX */
+
+.manage-card .common-table-card{
+  background:transparent !important;
+
+  border:none !important;
+
+  box-shadow:none !important;
+
+  padding:0 !important;
+}

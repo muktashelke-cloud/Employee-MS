@@ -1,0 +1,279 @@
+/* ===== SIDEBAR ===== */
+
+.admin-sidebar{
+  width:148px;
+  height:100vh;
+
+  box-sizing:border-box;
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  display:flex;
+  flex-direction:column;
+
+  padding:10px 8px;
+
+  background:
+  linear-gradient(
+    180deg,
+    #111827 0%,
+    #0f172a 55%,
+    #020617 100%
+  );
+
+  border-right:
+    1px solid rgba(255,255,255,0.06);
+
+  transition:.3s ease;
+ box-shadow:
+  8px 0 24px rgba(2,6,23,.28);
+
+border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+
+/* ===== COLLAPSED ===== */
+
+.admin-sidebar.collapsed{
+  width:78px;
+  
+}
+
+
+/* ===== HEADER ===== */
+
+.sidebar-header{
+  display:flex;
+
+  align-items:center;
+
+  padding:2px 4px 18px;
+
+  min-height:42px;
+}
+
+.sidebar-title{
+  font-size:17px;
+
+  font-weight:800;
+
+  color:#f8fafc;
+
+  letter-spacing:-0.3px;
+
+  margin:0;
+
+  display:flex;
+  align-items:center;
+
+  height:34px;
+}
+
+
+/* ===== TOGGLE ===== */
+
+.toggle-btn{
+  width:34px;
+  height:34px;
+
+  border:none;
+  border-radius:10px;
+
+  background:transparent;
+
+  color:#cbd5e1;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  flex-shrink:0;
+
+  padding:0;
+
+  margin-right:10px;
+}
+
+.toggle-btn:hover{
+  background:rgba(255,255,255,0.06);
+
+  color:white;
+}
+
+
+/* ===== LINKS ===== */
+
+.sidebar-links{
+  flex:1;
+
+  overflow-y:auto;
+
+  display:flex;
+  flex-direction:column;
+  padding-top:2px;
+
+  gap:6px;
+}
+
+
+/* ===== MENU ===== */
+
+.menu{
+  display:flex;
+  align-items:center;
+
+  gap:10px;
+
+  padding:11px 12px;
+
+  border-radius:12px;
+
+  color:#cbd5e1;
+
+  text-decoration:none;
+
+  font-size:13.5px;
+  font-weight:500;
+
+  transition:.22s ease;
+
+  border:1px solid transparent;
+  outline:none;
+
+-webkit-tap-highlight-color: transparent;
+  user-select:none;
+
+}
+.menu:focus,
+.menu:active,
+.menu:focus-visible{
+  outline:none;
+  box-shadow:none;
+}
+
+
+/* ===== ICON ===== */
+
+.menu svg{
+  width:19px;
+  height:19px;
+
+  flex-shrink:0;
+  opacity:.92;
+}
+
+/* ===== HOVER ===== */
+
+.menu:hover{
+  background:
+    rgba(255,255,255,0.08);
+
+  color:white;
+
+  transform:translateX(2px);
+
+  border-color:
+    rgba(255,255,255,0.05);
+}
+/* ===== LOGOUT ===== */
+
+.logout-section{
+  padding-top:16px;
+
+  border-top:
+    1px solid rgba(255,255,255,0.06);
+}
+
+.logout-btn{
+  width:100%;
+
+  height:42px;
+
+  border:none;
+
+  background:
+    rgba(255,255,255,0.03);
+
+  color:#e2e8f0;
+
+  font-size:13.5px;
+  font-weight:500;
+
+  display:flex;
+  align-items:center;
+
+  gap:10px;
+
+  cursor:pointer;
+
+  transition:.22s ease;
+
+  padding:0 12px;
+
+  border-radius:12px;
+
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+
+.logout-btn:hover{
+  background:
+    rgba(239,68,68,0.10);
+
+  color:#f87171;
+
+  border-color:
+    rgba(239,68,68,0.14);
+}
+.logout-btn:hover svg{
+  color:#f87171;
+}
+
+
+/* ===== SCROLLBAR ===== */
+
+.sidebar-links::-webkit-scrollbar{
+  width:4px;
+}
+
+.sidebar-links::-webkit-scrollbar-thumb{
+  background:
+    rgba(255,255,255,0.12);
+
+  border-radius:20px;
+}
+.menu.active{
+  position:relative;
+
+  color:white;
+
+  background:transparent;
+
+  border-color:transparent;
+
+  box-shadow:none;
+}
+.menu.active::before{
+  content:"";
+
+  position:absolute;
+
+  left:2px;
+
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:3px;
+  height:22px;
+
+  border-radius:20px;
+
+  background:#3b82f6;
+}

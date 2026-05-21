@@ -1,0 +1,171 @@
+.attendance-page{
+  width: 100%;
+  padding: 20px;
+}
+
+/* WRAPPER */
+
+.attendance-management-wrapper{
+  width: 100%;
+  max-width: 1150px;
+
+  margin: auto;
+
+  background: #fff;
+
+  border-radius: 24px;
+
+  padding: 28px;
+
+  border: 1px solid #eef2f7;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* TOP SECTION */
+
+.attendance-management-top{
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.attendance-management-title{
+  display: none;
+}
+.attendance-management-title{
+  font-size: 32px;
+  font-weight: 700;
+
+  color: #1e293b;
+}
+
+/* FILTERS */
+
+.attendance-filters{
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.attendance-filters input{
+  height: 46px;
+
+  padding: 0 16px;
+
+  border: 1px solid #dbe3ef;
+  border-radius: 14px;
+
+  background: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  outline: none;
+
+  transition: 0.2s ease;
+}
+
+.attendance-filters input:focus{
+  border-color: #6366f1;
+
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+.attendance-filters button{
+  height: 46px;
+
+  padding: 0 26px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-light)
+  );
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+
+  box-shadow: 0 8px 18px rgba(99,102,241,0.18);
+}
+
+.attendance-filters button:hover{
+  transform: translateY(-2px);
+}
+
+/* STATUS */
+
+.status-badge{
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status-active{
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pending{
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-rejected{
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ACTION BUTTON */
+
+.action-btn{
+  border: none;
+
+  padding: 8px 14px;
+
+  border-radius: 10px;
+
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.action-btn:hover{
+  background: #dbeafe;
+}
+
+/* TIME INPUT */
+
+td input[type="time"]{
+  height: 38px;
+
+  padding: 0 10px;
+
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+
+  outline: none;
+}

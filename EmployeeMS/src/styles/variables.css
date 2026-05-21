@@ -1,0 +1,41 @@
+:root {
+
+  /* ===== COLORS ===== */
+
+  --primary:#344767;
+  --primary-light:#3d5a80;
+  --primary-hover:#4a6b96;
+
+  --success-bg:#dff5e8;
+  --success-text:#1f7a4d;
+
+  --danger:#ef4444;
+
+  --bg:#f5f7fb;
+  --card:#ffffff;
+
+  --text:#1e293b;
+  --text-light:#64748b;
+
+  --border:#e5e7eb;
+
+  --table-hover:#f3f4f6;
+
+  /* ===== SHADOWS ===== */
+
+  --shadow-sm:
+    0 2px 8px rgba(15,23,42,0.05);
+
+  --shadow-md:
+    0 8px 24px rgba(15,23,42,0.08);
+
+  --shadow-lg:
+    0 12px 32px rgba(15,23,42,0.12);
+
+  /* ===== RADIUS ===== */
+
+  --radius-sm:12px;
+  --radius-md:18px;
+  --radius-lg:26px;
+
+}
