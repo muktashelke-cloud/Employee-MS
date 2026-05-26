@@ -3,19 +3,20 @@
    Same class names — JSX मध्ये काहीही बदल नाही
 ===================================================== */
 .employee-dashboard{
- 
+  width:100%;
 
-  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 
-  padding:32px;
+  padding:24px;
 
   background:#f4f7fb;
 
   box-sizing:border-box;
 
-  max-width:none !important;
+  max-width:1400px;
 
-  margin:0;
+  margin:0 auto;
 }
 
 /* ── Welcome Title ── */

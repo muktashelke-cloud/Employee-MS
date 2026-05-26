@@ -1,14 +1,13 @@
 .calendar-page {
   width: 100%;
-  min-height: 100vh;
 
   display: flex;
   justify-content: center;
   align-items: flex-start;
 
-  padding: 10px 24px 30px;
+  padding: 0;
 
-  background: #f1f5f9;
+  background: transparent;
 }
 
 .calendar-card {

@@ -1,9 +1,12 @@
 /* ===== MAIN CONTAINER ===== */
 
 .attendance-container {
-  padding: 10px;
+  width:100%;
+  padding: 24px;
   display: flex;
   flex-direction: column;
+  align-items:center;
+  box-sizing:border-box;
 }
 
 /* ===== HEADER ===== */
