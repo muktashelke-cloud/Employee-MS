@@ -2,8 +2,6 @@
 
 .common-table-card{
   width:100%;
- ;
-  max-width:1100px;
 
   margin:0 auto;
 
@@ -24,8 +22,6 @@
   justify-content:space-between;
 
   width:100%;
-  max-width:none;
-
   margin:0 auto 24px;
 }
 
@@ -136,7 +132,6 @@
   justify-content:center;
 
   min-width:90px;
-  max-width:110px;
 
   margin:auto;
 
