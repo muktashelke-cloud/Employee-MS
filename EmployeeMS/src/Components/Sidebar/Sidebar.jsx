@@ -71,7 +71,7 @@ const Sidebar = () => {
       {/* HEADER */}
       <div className="sidebar-header">
         <button className="toggle-btn" onClick={() => setCollapsed(!collapsed)}>
-         <Menu size={18} />
+          <Menu size={18} />
         </button>
 
         {!collapsed && (
@@ -96,19 +96,16 @@ const Sidebar = () => {
             {!collapsed && <span>Dashboard</span>}
           </NavLink>
         )}
-
         {/* Profile */}
         <NavLink to={`${basePath}/profile`} className={activeStyle}>
           <FaUserTie />
           {!collapsed && <span>Profile</span>}
         </NavLink>
-
         {/* Leave */}
         <NavLink to={`${basePath}/leave`} className={activeStyle}>
           <FaFileAlt />
           {!collapsed && <span>Leave</span>}
         </NavLink>
-
         {/* Employee Attendance */}
         {role === "employee" && (
           <>
@@ -129,8 +126,8 @@ const Sidebar = () => {
             </NavLink>
           </>
         )}
-
-        {/* HR Attendance (FIXED 🔥) */}
+        {/* HR Attendance */}
+        {/* HR Attendance */}
         {role === "hr" && (
           <>
             <NavLink to={`${basePath}/attendance`} className={activeStyle}>
@@ -145,15 +142,17 @@ const Sidebar = () => {
               <FaCalendarCheck />
               {!collapsed && <span>Attendance Calendar</span>}
             </NavLink>
-
-            <NavLink
-              to={`${basePath}/attendance-management`}
-              className={activeStyle}
-            >
-              <FaCalendarCheck />
-              {!collapsed && <span>Attendance Management</span>}
-            </NavLink>
           </>
+        )}
+        {/* Attendance Management */}
+        {["admin", "superadmin", "hr"].includes(role) && (
+          <NavLink
+            to={`${basePath}/attendance-management`}
+            className={activeStyle}
+          >
+            <FaCalendarCheck />
+            {!collapsed && <span>Attendance Management</span>}
+          </NavLink>
         )}
         {/* Employees */}
         {(role === "admin" || role === "hr" || role === "superadmin") && (
@@ -162,7 +161,6 @@ const Sidebar = () => {
             {!collapsed && <span>Employees</span>}
           </NavLink>
         )}
-
         {/* Reports */}
         {(role === "admin" || role === "hr" || role === "superadmin") && (
           <NavLink to={`${basePath}/monthly-report`} className={activeStyle}>
@@ -170,7 +168,6 @@ const Sidebar = () => {
             {!collapsed && <span>Reports</span>}
           </NavLink>
         )}
-
         {/* Allocation */}
         {(role === "admin" || role === "superadmin") && (
           <NavLink to={`${basePath}/allocation`} className={activeStyle}>
@@ -185,7 +182,6 @@ const Sidebar = () => {
             {!collapsed && <span>Timesheets</span>}
           </NavLink>
         )}
-
         {/* Super Admin */}
         {role === "superadmin" && (
           <>

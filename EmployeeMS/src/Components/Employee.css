@@ -1,7 +1,9 @@
 /* ===== PAGE WRAPPER ===== */
 .emp-page{
   padding:10px 18px;
-  width:80%;
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
 }
 .emp-table-wrapper{
   width: 100%;
@@ -233,7 +235,7 @@
 .emp-title {
  
   letter-spacing: 0.3px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-size: 22px;
   font-weight: 600;
   color: #0f172a;
@@ -259,7 +261,7 @@
 .emp-header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 /* TITLE */

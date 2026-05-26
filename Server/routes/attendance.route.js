@@ -20,7 +20,6 @@ router.post(
     `;
 
     conUser.query(sql, [employee_id], (err, result) => {
-
       if (err) {
         console.log(err);
         return res.json({
@@ -43,7 +42,6 @@ router.post(
       `;
 
       conUser.query(insertSql, [employee_id], (err2) => {
-
         if (err2) {
           console.log(err2);
 
@@ -59,7 +57,7 @@ router.post(
         });
       });
     });
-  }
+  },
 );
 router.post(
   "/punch-out",
@@ -67,57 +65,126 @@ router.post(
   (req, res) => {
     const employee_id = req.user.id;
 
-    const sql = `
-UPDATE attendance
-SET 
-punch_out = CURTIME(),
-working_hours = TIMEDIFF(CURTIME(), punch_in)
-WHERE employee_id = ?
-AND date = CURDATE()
-`;
+    // today's attendance check
+    const checkSql = `
+      SELECT *
+      FROM attendance
+      WHERE employee_id = ?
+      AND DATE(date) = CURDATE()
+    `;
 
-    conUser.query(sql, [employee_id], (err, result) => {
-      if (err) return res.json({ status: false, error: err });
+    conUser.query(checkSql, [employee_id], (err, result) => {
+      if (err) {
+        console.log(err);
 
-      return res.json({ status: true, message: "Punch out success" });
+        return res.json({
+          status: false,
+          message: err.message,
+        });
+      }
+
+      // no attendance found
+      if (result.length === 0) {
+        return res.json({
+          status: false,
+          message: "Please punch in first",
+        });
+      }
+
+      // already punched out
+      if (result[0].punch_out && result[0].punch_out !== "00:00:00") {
+        return res.json({
+          status: false,
+          message: "Already punched out",
+        });
+      }
+
+      // update attendance
+      const updateSql = `
+        UPDATE attendance
+        SET
+          punch_out = CURTIME(),
+          working_hours = TIMEDIFF(CURTIME(), punch_in)
+        WHERE id = ?
+      `;
+
+      conUser.query(updateSql, [result[0].id], (err2, updateResult) => {
+        if (err2) {
+          console.log("Punch Out Update Error:", err2);
+
+          return res.json({
+            status: false,
+            message: err2.message,
+          });
+        }
+
+        console.log("Update Result:", updateResult);
+
+        if (updateResult.affectedRows === 0) {
+          return res.json({
+            status: false,
+            message: "Punch out failed",
+          });
+        }
+
+        return res.json({
+          status: true,
+          message: "Punch out successful",
+        });
+      });
     });
   },
 );
 /* ================= TODAY PRESENT ================= */
-router.get("/today-count", verifyUser(["superadmin", "admin", "hr"]), (req, res) => {
-  const sql =
-    "SELECT COUNT(*) AS presentToday FROM attendance WHERE date = CURDATE() AND status='Present'";
+router.get(
+  "/today-count",
+  verifyUser(["superadmin", "admin", "hr"]),
+  (req, res) => {
+    const sql =
+      "SELECT COUNT(*) AS presentToday FROM attendance WHERE date = CURDATE() AND status='Present'";
 
-  conUser.query(sql, (err, result) => {
-    if (err) return res.json({ status: false });
-    res.json({ status: true, result: result[0] });
-  });
-});
+    conUser.query(sql, (err, result) => {
+      if (err) return res.json({ status: false });
+      res.json({ status: true, result: result[0] });
+    });
+  },
+);
 
 /* ================= ON LEAVE ================= */
-router.get("/on-leave-count", verifyUser(["superadmin", "admin", "hr"]), (req, res) => {
-  const sql =
-    "SELECT COUNT(*) AS onLeave FROM attendance WHERE date = CURDATE() AND status='Leave'";
+router.get(
+  "/on-leave-count",
+  verifyUser(["superadmin", "admin", "hr"]),
+  (req, res) => {
+    const sql =
+      "SELECT COUNT(*) AS onLeave FROM attendance WHERE date = CURDATE() AND status='Leave'";
 
-  conUser.query(sql, (err, result) => {
-    if (err) return res.json({ status: false });
-    res.json({ status: true, result: result[0] });
-  });
-});
+    conUser.query(sql, (err, result) => {
+      if (err) return res.json({ status: false });
+      res.json({ status: true, result: result[0] });
+    });
+  },
+);
 
 /* ================= PENDING LEAVES ================= */
-router.get("/pending-leaves", verifyUser(["superadmin", "admin", "hr"]), (req, res) => {
-  const sql =
-    "SELECT COUNT(*) AS pending FROM leave_requests WHERE status='Pending'";
+router.get(
+  "/pending-leaves",
+  verifyUser(["superadmin", "admin", "hr"]),
+  (req, res) => {
+    const sql =
+      "SELECT COUNT(*) AS pending FROM leave_requests WHERE status='Pending'";
 
-  conUser.query(sql, (err, result) => {
-    if (err) return res.json({ status: false });
-    res.json({ status: true, result: result[0] });
-  });
-});
+    conUser.query(sql, (err, result) => {
+      if (err) return res.json({ status: false });
+      res.json({ status: true, result: result[0] });
+    });
+  },
+);
 
-router.get("/summary", verifyUser(["superadmin", "admin", "hr"]), (req, res) => {
-  const sql = `
+router.get(
+  "/summary",
+  verifyUser(["superadmin", "admin", "hr"]),
+  (req, res) => {
+    const sql = `
     SELECT
       COALESCE(SUM(status = 'present'), 0) AS present,
       COALESCE(SUM(status = 'absent'), 0) AS absent,
@@ -127,20 +194,21 @@ router.get("/summary", verifyUser(["superadmin", "admin", "hr"]), (req, res) => 
     WHERE date = CURDATE()
   `;
 
-  conUser.query(sql, (err, result) => {
-    if (err) {
-      console.log("Attendance Summary Error:", err);
-      return res.json({ status: false });
-    }
+    conUser.query(sql, (err, result) => {
+      if (err) {
+        console.log("Attendance Summary Error:", err);
+        return res.json({ status: false });
+      }
 
-    res.json({
-      status: true,
-      result: result[0],
+      res.json({
+        status: true,
+        result: result[0],
+      });
     });
-  });
-});
+  },
+);
 router.get("/all-leaves", (req, res) => {
- const sql = `
+  const sql = `
 SELECT 
   lr.id,
   lr.employee_email, 
@@ -482,16 +550,17 @@ router.get("/attendance-by-date", verifyUser(["admin", "hr"]), (req, res) => {
   const { date } = req.query;
 
   const sql = `
-      SELECT 
-        a.id,
-        e.name,
-        a.punch_in,
-        a.punch_out,
-        a.status
-      FROM attendance a
-      JOIN employee e ON a.employee_id = e.id
-      WHERE a.date = ?
-    `;
+  SELECT 
+    a.id,
+    e.name,
+    a.punch_in,
+    a.punch_out,
+    a.status
+  FROM attendance a
+  LEFT JOIN employee e 
+  ON a.employee_id = e.id
+  WHERE a.date = ?
+`;
 
   conUser.query(sql, [date], (err, result) => {
     if (err) {
@@ -559,10 +628,13 @@ router.get(
     });
   },
 );
-router.get("/admin-attendance", verifyUser(["superadmin", "admin", "hr"]), (req, res) => {
-  const employee_id = req.query.employee_id;
+router.get(
+  "/admin-attendance",
+  verifyUser(["superadmin", "admin", "hr"]),
+  (req, res) => {
+    const employee_id = req.query.employee_id;
 
-  let sql = `
+    let sql = `
       SELECT 
   a.date,
   a.status,
@@ -574,29 +646,52 @@ router.get("/admin-attendance", verifyUser(["superadmin", "admin", "hr"]), (req,
       JOIN employee e ON a.employee_id = e.id
     `;
 
-  let values = [];
+    let values = [];
 
-  // ⭐ If employee selected → filter
-  if (employee_id) {
-    sql += " WHERE a.employee_id = ?";
-    values.push(employee_id);
-  }
-
-  sql += " ORDER BY a.date DESC";
-
-  conUser.query(sql, values, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.json({ status: false });
+    // ⭐ If employee selected → filter
+    if (employee_id) {
+      sql += " WHERE a.employee_id = ?";
+      values.push(employee_id);
     }
 
-    res.json({
-      status: true,
-      result,
+    sql += " ORDER BY a.date DESC";
+
+    conUser.query(sql, values, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.json({ status: false });
+      }
+
+      res.json({
+        status: true,
+        result,
+      });
     });
-  });
-});
+  },
+);
+router.delete(
+  "/delete-attendance/:id",
+  verifyUser(["admin", "hr"]),
+  (req, res) => {
+    const { id } = req.params;
 
+    const sql = "DELETE FROM attendance WHERE id = ?";
 
+    conUser.query(sql, [id], (err) => {
+      if (err) {
+        console.log("Delete Error:", err);
+
+        return res.json({
+          status: false,
+        });
+      }
+
+      return res.json({
+        status: true,
+        message: "Attendance deleted",
+      });
+    });
+  },
+);
 
 export default router;

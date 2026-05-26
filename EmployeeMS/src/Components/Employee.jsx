@@ -83,7 +83,7 @@ const Employee = () => {
   const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
 
   return (
-    <div className="emp-page px-2 mt-2">
+    <div className="emp-page">
       <div className="emp-header">
         {/* LEFT */}
         <div className="emp-header-left">

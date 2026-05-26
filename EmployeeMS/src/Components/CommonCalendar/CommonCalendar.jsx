@@ -58,6 +58,19 @@ const CommonCalendar = ({
                           ? "leave"
                           : ""
               }`}
+              data-status={
+                status === "P"
+                  ? "Present"
+                  : status === "A"
+                    ? "Absent"
+                    : status === "L"
+                      ? "Late"
+                      : status === "H"
+                        ? "Half Day"
+                        : status === "LV"
+                          ? "Leave"
+                          : ""
+              }
             >
               {day}
             </div>

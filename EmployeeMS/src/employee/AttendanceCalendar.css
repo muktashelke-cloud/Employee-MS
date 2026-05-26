@@ -13,7 +13,8 @@
   justify-content: center;
   align-items: center;
 
-  margin-bottom: 22px;
+  margin-top: 28px;
+  margin-bottom: -2px;
 }
 .attendance-header h2 {
   font-size: 28px;
@@ -131,55 +132,46 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top:0px;
-  padding-top:0px;
-  position: relative;
-  z-index: 1;
+  margin-top: -20px;
 
+  background: transparent;
+  box-shadow: none;
+  border: none;
 }
 
 /* ===== WRAPPER ===== */
 
 .calendar-wrapper {
-  width: 100%;
-  padding: 28px;
-  margin-top: 0;
-  max-width: 900px;
+  width: fit-content;
 
- background: linear-gradient(
-  to bottom right,
-  #ffffff,
-  #eef2ff
-);
+  padding: 28px 30px;
 
-  border-radius: 24px;
+  background: #f8fafc;
 
-  padding: 24px;
+  border-radius: 28px;
 
- border: 1px solid #eef2f7;
+  border: 1px solid #edf1f7;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.06),
-    0 2px 8px rgba(0,0,0,0.03);
+    0 8px 22px rgba(15, 23, 42, 0.04),
+    0 2px 6px rgba(15, 23, 42, 0.03);
 
-}
+  margin-top: 10px;
+    max-width: 980px;
 
-/* ===== LEGEND ===== */
+  background: #f8fafc;
 
-.legend {
-  margin-top: 25px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+  border-radius: 32px;
 
-.legend span {
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
+  padding: 44px 38px;
+
+  border: 1px solid rgba(226, 232, 240, 0.7);
+
+
+
+  backdrop-filter: blur(8px);
+
+  transition: all 0.3s ease;
 }
 
 /* ===== STATUS COLORS ===== */
@@ -221,7 +213,8 @@
 
   .calendar-wrapper {
     padding: 18px;
-  }
+
+}
 }
 .calendar-month-year{
   display: flex;
@@ -235,4 +228,90 @@
   color: #64748b;
 
   margin-bottom: 10px;
+}
+/* ONLY Attendance Page Hover */
+
+.attendance-container .calendar-day-box{
+  transition: all 0.2s ease;
+
+  cursor: pointer;
+}
+
+.attendance-container .calendar-day-box:hover{
+  transform: translateY(-3px);
+
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+/* ===== TOOLTIP ===== */
+
+.attendance-container .calendar-day-box {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Tooltip Box */
+
+.attendance-container .calendar-day-box::after {
+  content: attr(data-status);
+
+  position: absolute;
+
+  top: -42px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background: #1e293b;
+  color: #fff;
+
+  padding: 7px 14px;
+
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all 0.2s ease;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+
+  z-index: 999;
+}
+
+/* Small Arrow */
+
+.attendance-container .calendar-day-box::before {
+  content: "";
+
+  position: absolute;
+
+  top: -10px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-width: 6px;
+  border-style: solid;
+
+  border-color: #1e293b transparent transparent transparent;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all 0.2s ease;
+
+  z-index: 999;
+}
+
+/* Hover */
+
+.attendance-container .calendar-day-box:hover::after,
+.attendance-container .calendar-day-box:hover::before {
+  opacity: 1;
+  visibility: visible;
 }

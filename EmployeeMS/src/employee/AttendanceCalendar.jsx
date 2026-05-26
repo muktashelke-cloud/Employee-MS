@@ -141,13 +141,7 @@ const AttendanceCalendar = () => {
           />
 
           {/* ✅ Legend (FIXED CLASS NAMES) */}
-          <div className="legend">
-            <span className="att-status att-present">P</span>
-            <span className="att-status att-absent">A</span>
-            <span className="att-status att-leave">L</span>
-            <span className="att-status att-late">Lt</span>
-            <span className="att-status att-half">H</span>
-          </div>
+         
         </div>
       </div>
     </div>

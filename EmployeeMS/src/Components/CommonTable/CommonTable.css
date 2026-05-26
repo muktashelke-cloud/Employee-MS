@@ -2,6 +2,7 @@
 
 .common-table-card{
   width:100%;
+ ;
   max-width:1100px;
 
   margin:0 auto;
@@ -23,9 +24,9 @@
   justify-content:space-between;
 
   width:100%;
-  max-width:1100px;
+  max-width:none;
 
-  margin:0 auto 14px;
+  margin:0 auto 24px;
 }
 
 .table-left-content{
@@ -58,7 +59,7 @@
 
 .common-table-wrapper{
   overflow:hidden;
-
+  width:100%;
   border-radius:22px;
 
   background:transparent;
@@ -115,11 +116,12 @@
 
 
 .common-table tbody tr{
-  height:48px;
+ 
 
   transition:
     background .2s ease,
     transform .18s ease;
+    background:transparent;
 }
 
 .common-table tbody tr:hover{
@@ -219,7 +221,7 @@ transition:
 .no-data{
   text-align:center;
 
-  padding:30px;
+  padding:14px 0;   /* 30px -> 14px */
 
   color:var(--text-light);
 
@@ -292,7 +294,6 @@ transition:
 
 .common-table{
   width:100%;
-  table-layout:fixed;
 
   border-collapse:collapse;
   border-spacing:0;
@@ -306,11 +307,11 @@ transition:
   border-radius:22px;
 
   overflow:hidden;
+
+  table-layout:auto;   /* fixed -> auto */
 }
 
-.common-table tbody tr{
-  background:transparent;
-}
+
 
 
 .common-table th,
@@ -331,12 +332,31 @@ transition:
   text-align:center;
 }
 
-.common-table tbody tr{
-  background:rgba(255,255,255,0.45);
-}
-
 .common-table td{
   background:transparent;
+}
+.common-table tbody{
+  height:auto !important;
+}
+
+.common-table-wrapper{
+  height:auto !important;
+}
+.table-topbar{
+  display:flex;
+  align-items:flex-start;
+
+  justify-content:space-between;
+
+  width:100%;
+
+  margin:0 0 6px 0;
+}
+.table-right-content{
+  margin-left:auto;
+
+  display:flex;
+  justify-content:flex-end;
 }
 
 

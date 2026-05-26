@@ -116,11 +116,10 @@ const Login = () => {
 
           <input
             type="email"
-            name="login_email" // 🔥 add this
-            autoComplete="new-email"
+            name="login_email"
+            autoComplete="off"
             required
             autoFocus
-            autoComplete="off"
             placeholder="Enter Email"
             value={values.email}
             onChange={(e) => setValues({ ...values, email: e.target.value })}

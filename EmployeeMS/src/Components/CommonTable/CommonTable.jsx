@@ -31,10 +31,7 @@ const CommonTable = ({
       {/* TOPBAR */}
 
       <div className="table-topbar">
-        {/* LEFT TITLE BOX */}
-
-        <div className="table-left-content">{leftContent}</div>
-        {/* RIGHT ENTRIES */}
+        {leftContent && <div className="table-left-content">{leftContent}</div>}
 
         <div className="table-right-content">
           <div className="entries-box">
@@ -54,44 +51,43 @@ const CommonTable = ({
       </div>
 
       {/* TABLE */}
-      <div className="common-table-wrapper">
-        <div className="common-table-wrapper">
-          <table className={`common-table ${tableClass}`}>
-            <thead>
-              <tr>
-                {columns.map((col, index) => (
-                  <th key={index}>
-                    {typeof col === "string" ? col : col.header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
 
-            <tbody>
-              {currentData.length > 0 ? (
-                renderRow ? (
-                  currentData.map((item, index) => renderRow(item, index))
-                ) : (
-                  currentData.map((item, index) => (
-                    <tr key={index}>
-                      {columns.map((col, i) => (
-                        <td key={i}>
-                          {col.render ? col.render(item) : item[col.accessor]}
-                        </td>
-                      ))}
-                    </tr>
-                  ))
-                )
+      <div className="common-table-wrapper">
+        <table className={`common-table ${tableClass}`}>
+          <thead>
+            <tr>
+              {columns.map((col, index) => (
+                <th key={index}>
+                  {typeof col === "string" ? col : col.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {currentData.length > 0 ? (
+              renderRow ? (
+                currentData.map((item, index) => renderRow(item, index))
               ) : (
-                <tr>
-                  <td colSpan={columns.length} className="no-data">
-                    No Data Found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                currentData.map((item, index) => (
+                  <tr key={index}>
+                    {columns.map((col, i) => (
+                      <td key={i}>
+                        {col.render ? col.render(item) : item[col.accessor]}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              )
+            ) : (
+              <tr>
+                <td colSpan={columns.length} className="no-data">
+                  No Data Found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
       {/* PAGINATION */}

@@ -44,23 +44,6 @@ const AdminAttendanceCalendar = () => {
     }
   };
 
-  const getShort = (status) => {
-    switch (status) {
-      case "present":
-        return "P";
-      case "absent":
-        return "A";
-      case "leave":
-        return "L";
-      case "late":
-        return "Lt";
-      case "halfday":
-        return "H";
-      default:
-        return "";
-    }
-  };
-
   const getColor = (status) => {
     switch (status) {
       case "present":
@@ -85,29 +68,42 @@ const AdminAttendanceCalendar = () => {
       "0",
     )}-${String(d.getDate()).padStart(2, "0")}`;
   };
+const tileContent = ({ date }) => {
+  const formatted = formatDate(date);
+  const today = formatDate(new Date());
 
-  // Calendar content
-  const tileContent = ({ date }) => {
-    const formatted = formatDate(date);
-    const today = formatDate(new Date());
+  if (formatted > today) return null;
 
-    if (formatted > today) return null;
+  const records = attendanceData.filter(
+    (item) => formatDate(item.date) === formatted,
+  );
 
-    const records = attendanceData.filter(
-      (item) => formatDate(item.date) === formatted,
-    );
+  if (records.length === 0) {
+    return null;
+  }
 
-    if (records.length === 0) {
-      return <div className="admin-status admin-absent">A</div>;
-    }
-    const r = records[0];
+  const r = records[0];
 
-    return (
+  return (
+    <div className="tooltip-wrapper">
       <div className={`admin-status admin-${r.status}`}>
-        {getShort(r.status)}
+        {r.status === "present"
+          ? "P"
+          : r.status === "absent"
+            ? "A"
+            : r.status === "leave"
+              ? "L"
+              : r.status === "late"
+                ? "Lt"
+                : "H"}
       </div>
-    );
-  };
+
+      <span className="custom-tooltip">
+        {r.status.charAt(0).toUpperCase() + r.status.slice(1)}
+      </span>
+    </div>
+  );
+};
   const handleDayClick = (date) => {
     const formatted = formatDate(date);
 
@@ -123,8 +119,6 @@ const AdminAttendanceCalendar = () => {
     <div className="calendar-page">
       <div className="calendar-card">
         <div className="calendar-header">
-          <h6 className="title">Employee Attendance Calendar</h6>
-
           <select
             className="employee-filter"
             value={selectedEmployee}
@@ -143,43 +137,10 @@ const AdminAttendanceCalendar = () => {
           </select>
         </div>
         {/* Calendar */}
-        <Calendar
-          tileContent={tileContent}
-          onClickDay={(value) => handleDayClick(value)}
-        />
-      </div>
-      {selectedDate && (
-        <div className="modal-overlay" onClick={() => setSelectedDate(null)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h3>{selectedDate} Attendance</h3>
-
-            <p>
-              Present:{" "}
-              {selectedRecords.filter((r) => r.status === "present").length}
-            </p>
-            <p>
-              Absent:{" "}
-              {selectedRecords.filter((r) => r.status === "absent").length}
-            </p>
-            <p>
-              Leave:{" "}
-              {selectedRecords.filter((r) => r.status === "leave").length}
-            </p>
-
-            <hr />
-
-            <div className="employee-list">
-              {selectedRecords.map((r, i) => (
-                <div key={i} className="employee-item">
-                  {r.employee_name} - {r.status}
-                </div>
-              ))}
-            </div>
-
-            <button onClick={() => setSelectedDate(null)}>Close</button>
-          </div>
+        <div className="calendar-wrapper">
+          <Calendar tileContent={tileContent} onClickDay={() => {}} />
         </div>
-      )}
+      </div>
     </div>
   );
 };

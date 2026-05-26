@@ -29,6 +29,10 @@ const TopNavbar = () => {
     title = "Monthly Attendance";
   } else if (location.pathname.includes("/leave")) {
     title = "Leave Management";
+  } else if (location.pathname.includes("/attendance-management")) {
+    title = "Attendance Management";
+  } else if (location.pathname.includes("/attendance-calendar")) {
+    title = "Employee Attendance Calendar";
   } else if (location.pathname.includes("/attendance")) {
     title = "My Attendance";
   } else if (location.pathname.includes("/profile")) {
@@ -41,8 +45,6 @@ const TopNavbar = () => {
     title = "Manage HR";
   } else if (location.pathname.includes("/timesheets")) {
     title = "Employee Timesheets";
-  } else if (location.pathname.includes("/attendance-management")) {
-    title = "Attendance Management";
   }
 
   /* PANEL NAME */

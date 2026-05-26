@@ -1,7 +1,6 @@
 /* ===== TOP NAVBAR ===== */
 
 .top-navbar{
- 
 
   min-height:68px;
 
@@ -13,21 +12,19 @@
 
   border:1px solid #eef2f7;
 
-  box-sizing:border-box;
-
   box-shadow:
     0 10px 30px rgba(15,23,42,0.05);
 
-  width:calc(100% - 10px);
+  width:100%;
+  max-width:1400px;
 
-  margin:0 auto;
+  margin:0 auto 20px;
 
-  padding:10px 30px;
+  padding:10px 24px;
 
   border-radius:18px;
 
   box-sizing:border-box;
-
 }
 
 
@@ -44,7 +41,7 @@
   position:relative;
   top:1px;
 
-  margin-left:40px;
+
 }
 
 .page-subtitle{

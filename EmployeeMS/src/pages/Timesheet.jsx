@@ -207,24 +207,24 @@ const Timesheet = () => {
       console.log("Delete error:", err);
     }
   };
- const handleEdit = async (item) => {
-  console.log("EDIT CLICKED 🔥", item);
-  console.log("TASK ID 👉", item.task_id);
+  const handleEdit = async (item) => {
+    console.log("EDIT CLICKED 🔥", item);
+    console.log("TASK ID 👉", item.task_id);
 
-  await fetchTasks(item.project_id);
+    await fetchTasks(item.project_id);
 
-  setEditId(item.id);
+    setEditId(item.id);
 
-  setTimeout(() => {
-    setFormData({
-      employee_id: user.id,
-      project_id: item.project_id,
-      task_id: item.task_id,
-      hours: item.hours,
-      date: item.date.split("T")[0],
-    });
-  }, 200); // 🔥 wait for tasks load
-};
+    setTimeout(() => {
+      setFormData({
+        employee_id: user.id,
+        project_id: item.project_id,
+        task_id: item.task_id,
+        hours: item.hours,
+        date: item.date.split("T")[0],
+      });
+    }, 200); // 🔥 wait for tasks load
+  };
 
   const totalHours = entries.reduce((sum, e) => sum + e.hours, 0);
 
@@ -236,86 +236,82 @@ const Timesheet = () => {
     grouped[date] += e.hours;
   });
   const columns = [
-  { header: "Date" },
-  { header: "Project" },
-  { header: "Task" },
-  { header: "Hours" },
-  { header: "Action" },
-];
+    { header: "Date" },
+    { header: "Project" },
+    { header: "Task" },
+    { header: "Hours" },
+    { header: "Action" },
+  ];
   let lastDate = "";
 
   const renderRow = (e) => (
-  <tr key={e.id}>
-    <td>
-      {new Date(e.date).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })}
+    <tr key={e.id}>
+      <td>
+        {new Date(e.date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })}
 
-      {(() => {
-        const currentDate = e.date.split("T")[0];
+        {(() => {
+          const currentDate = e.date.split("T")[0];
 
-        if (lastDate !== currentDate) {
-          lastDate = currentDate;
+          if (lastDate !== currentDate) {
+            lastDate = currentDate;
 
-          return (
-            <>
-              <br />
+            return (
+              <>
+                <br />
 
-              <small style={{ color: "#666" }}>
-                Total: {grouped[currentDate]} hrs
-              </small>
-            </>
-          );
-        }
+                <small style={{ color: "#666" }}>
+                  Total: {grouped[currentDate]} hrs
+                </small>
+              </>
+            );
+          }
 
-        return null;
-      })()}
-    </td>
+          return null;
+        })()}
+      </td>
 
-    <td>
-      <span
-        className={`project-badge ${
-          e.project === "EMS Project" ? "green" : "blue"
-        }`}
-      >
-        {e.project}
-      </span>
-    </td>
-
-    <td>{e.task_name || e.name}</td>
-
-    <td>{e.hours}</td>
-
-    <td>
-      <div className="action-buttons">
-
-        <button
-          type="button"
-          className="action-btn"
-          onClick={() => handleEdit(e)}
+      <td>
+        <span
+          className={`project-badge ${
+            e.project === "EMS Project" ? "green" : "blue"
+          }`}
         >
-          <FaEdit />
-        </button>
+          {e.project}
+        </span>
+      </td>
 
-        <button
-          type="button"
-          className="action-btn"
-          onClick={() => handleDelete(e.id)}
-        >
-          <FaTrash />
-        </button>
+      <td>{e.task_name || e.name}</td>
 
-      </div>
-    </td>
-  </tr>
-);
+      <td>{e.hours}</td>
+
+      <td>
+        <div className="action-buttons">
+          <button
+            type="button"
+            className="action-btn"
+            onClick={() => handleEdit(e)}
+          >
+            <FaEdit />
+          </button>
+
+          <button
+            type="button"
+            className="action-btn"
+            onClick={() => handleDelete(e.id)}
+          >
+            <FaTrash />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
 
   return (
     <div className="timesheet-container">
-     
-
       {message && <p className="message">{message}</p>}
 
       <div className="filter-section">
@@ -411,54 +407,52 @@ const Timesheet = () => {
         </button>
       </div>
 
-      
-
       {/* TABLE */}
-  <CommonTable
-  columns={columns}
-  data={entries}
-  renderRow={renderRow}
-  tableClass="manage-table"
-  leftContent={
-    <div className="filter-section">
+      <div className="timesheet-card">
+        <CommonTable
+          columns={columns}
+          data={entries}
+          renderRow={renderRow}
+          tableClass="manage-table"
+          leftContent={
+            <div className="filter-section">
+              <input
+                type="date"
+                value={fromDate}
+                max={new Date().toISOString().split("T")[0]}
+                onChange={(e) => setFromDate(e.target.value)}
+              />
 
-      <input
-        type="date"
-        value={fromDate}
-        max={new Date().toISOString().split("T")[0]}
-        onChange={(e) => setFromDate(e.target.value)}
-      />
+              <input
+                type="date"
+                value={toDate}
+                max={new Date().toISOString().split("T")[0]}
+                onChange={(e) => setToDate(e.target.value)}
+              />
 
-      <input
-        type="date"
-        value={toDate}
-        max={new Date().toISOString().split("T")[0]}
-        onChange={(e) => setToDate(e.target.value)}
-      />
+              <button
+                title="Apply Filter"
+                onClick={fetchTimesheet}
+                disabled={!fromDate || !toDate}
+                style={{ opacity: !fromDate || !toDate ? 0.5 : 1 }}
+              >
+                <FaFilter />
+              </button>
 
-      <button
-        title="Apply Filter"
-        onClick={fetchTimesheet}
-        disabled={!fromDate || !toDate}
-        style={{ opacity: !fromDate || !toDate ? 0.5 : 1 }}
-      >
-        <FaFilter />
-      </button>
-
-      <button
-        title="Clear Filter"
-        onClick={() => {
-          setFromDate("");
-          setToDate("");
-          fetchTimesheet();
-        }}
-      >
-        <FaTimes />
-      </button>
-
-    </div>
-  }
-/>
+              <button
+                title="Clear Filter"
+                onClick={() => {
+                  setFromDate("");
+                  setToDate("");
+                  fetchTimesheet();
+                }}
+              >
+                <FaTimes />
+              </button>
+            </div>
+          }
+        />
+      </div>
     </div>
   );
 };
