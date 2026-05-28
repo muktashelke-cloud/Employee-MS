@@ -74,12 +74,12 @@
 
 /* CALENDAR */
 
-.calendar-card .react-calendar {
-  border:none !important;
-  background:transparent !important;
-
+.calendar-card .react-calendar{
   width:100% !important;
-  max-width:100% !important;
+
+  max-width:950px !important;
+
+  margin:0 auto;
 }
 
 /* NAVIGATION */
@@ -353,15 +353,15 @@
 
 .calendar-wrapper{
   width:100%;
+  display:flex;
+  justify-content:center;
 }
 
 .calendar-wrapper .react-calendar{
   width:100% !important;
 }
 
-.calendar-card{
-  min-width:100%;
-}
+
 .calendar-card .react-calendar__viewContainer{
   width:100%;
 }
@@ -369,4 +369,30 @@
 .calendar-card .react-calendar__month-view{
   width:100%;
 }
+.calendar-card .react-calendar__month-view{
+  display:flex !important;
+  align-items:flex-start;
+  gap:26px;
+}
 
+.calendar-card .react-calendar__month-view__weekdays,
+.calendar-card .react-calendar__month-view__days{
+  grid-column:2;
+}
+
+.calendar-card .react-calendar__navigation{
+  margin-bottom:28px;
+}
+.calendar-card .react-calendar__month-view > div:first-child{
+  width:120px;
+
+  display:flex;
+  justify-content:flex-start;
+  align-items:flex-start;
+
+  padding-top:14px;
+}
+.calendar-card .react-calendar__month-view__weekdays,
+.calendar-card .react-calendar__month-view__days{
+  width:100%;
+}

@@ -39,12 +39,12 @@ const EmployeeDashboard = () => {
   }
 
   return (
-    <div className="employee-dashboard">
+    <div className="employee-dashboard" >
       <h2 className="dashboard-title">
         Welcome {employee?.name} 👋
       </h2>
 
-      <div className="dashboard-cards">
+      <div className=" dashboard-cards">
 
         {/* Profile */}
         <div

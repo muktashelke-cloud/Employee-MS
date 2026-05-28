@@ -90,7 +90,10 @@ const Sidebar = () => {
       {/* LINKS */}
       <div className="sidebar-links">
         {/* Dashboard */}
-        {(role === "admin" || role === "hr" || role === "superadmin") && (
+        {(role === "admin" ||
+          role === "hr" ||
+          role === "superadmin" ||
+          role === "employee") && (
           <NavLink to={`${basePath}/dashboard`} className={activeStyle}>
             <FaTachometerAlt />
             {!collapsed && <span>Dashboard</span>}

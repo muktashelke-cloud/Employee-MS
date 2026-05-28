@@ -1,157 +1,126 @@
 /* =====================================================
    FILE: src/pages/employee/EmployeeDashboard.css
-   Same class names — JSX मध्ये काहीही बदल नाही
 ===================================================== */
 .employee-dashboard{
   width:100%;
 
+  min-height:100vh;
+
   display:flex;
   flex-direction:column;
 
-  padding:24px;
+  padding:0.5rem 1.8rem 2rem;
+
+  margin-top:-0.8rem;
 
   background:#f4f7fb;
 
   box-sizing:border-box;
-
-  max-width:1400px;
-
-  margin:0 auto;
+ 
 }
-
 /* ── Welcome Title ── */
 .dashboard-title {
   font-size: 28px;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   color: #1e293b;
   letter-spacing: -0.3px;
-  padding-left: 4px
+  padding-left: 4px;
+  margin-top:0px;
 }
 
 /* ── Cards Grid ── */
 .dashboard-cards{
-  display:grid;
+  display:flex;
 
- grid-template-columns:repeat(3,1fr);
-
-  gap:24px;
+  gap:20px;
 
   width:100%;
+
+  flex-wrap:wrap;
 }
 
 /* ── Card Base ── */
-.dashboard-card {
-    width:100%;
+.dashboard-card{
+  flex:1;
 
-  min-width:0;
-  padding: 28px 26px;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
-  min-height: 130px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  
+  min-width:240px;
+
+  max-width:260px;
+  min-height: 110px;
+  height:100px;
+
+  padding:22px;
+
+  border-radius:20px;
+
+  background:#ffffff;
+
+  color:#111827;
+
+  cursor:pointer;
+
+  position:relative;
+
+  overflow:hidden;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+
+  border:1px solid #ececec;
+
+  box-shadow:
+    0 2px 6px rgba(15,23,42,0.04),
+    0 12px 30px rgba(15,23,42,0.05);
+
+  transition:all 0.25s ease;
 }
 
-/* ── Hover ── */
-.dashboard-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
-}
+.dashboard-card:hover{
+  transform:translateY(-6px);
 
-/* ── Shine sweep effect ── */
-.dashboard-card::before {
-  content: "";
-  position: absolute;
-  width: 60%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.12);
-  top: -50%;
-  left: -80%;
-  transform: skewX(-20deg);
-  transition: 0.55s ease;
-  pointer-events: none;
-}
-.dashboard-card:hover::before {
-  left: 130%;
-}
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.08);
+  margin-top:-2px;
 
-/* ── Decorative circle (bottom-right) ── */
-.dashboard-card::after {
-  content: "";
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  bottom: -30px;
-  right: -30px;
-  pointer-events: none;
+ /* border-color:#d1d5db;*/
 }
-
 /* ── Card Text ── */
-.dashboard-card h4 {
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0.88;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin: 0;
+.dashboard-card h4{
+  font-size:0.78rem;
+
+  font-weight:600;
+
+  color:#94a3b8;
+
+  text-transform:uppercase;
+
+  letter-spacing:1px;
+
+  margin:0;
 }
 
-.dashboard-card p {
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.3px;
+.dashboard-card p{
+  font-size:1.1rem;
+
+  font-weight:700;
+
+  color:#0f172a;
+
+  margin:0;
+
+  line-height:1.4;
 }
 
-/* ── Card Colours (same class names as your JSX) ── */
-.profile {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
-}
-.profile:hover {
-  box-shadow: 0 16px 36px rgba(102, 126, 234, 0.45);
-}
-
-.salary {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  box-shadow: 0 8px 24px rgba(17, 153, 142, 0.35);
-}
-.salary:hover {
-  box-shadow: 0 16px 36px rgba(17, 153, 142, 0.45);
-}
-
-.attendance {
-  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
-  box-shadow: 0 8px 24px rgba(247, 151, 30, 0.35);
-}
-.attendance:hover {
-  box-shadow: 0 16px 36px rgba(247, 151, 30, 0.45);
-}
-
-.leave {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  box-shadow: 0 8px 24px rgba(106, 17, 203, 0.35);
-}
-.leave:hover {
-  box-shadow: 0 16px 36px rgba(106, 17, 203, 0.45);
-}
-
-.tasks {
-  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
-  box-shadow: 0 8px 24px rgba(255, 65, 108, 0.35);
-}
-.tasks:hover {
-  box-shadow: 0 16px 36px rgba(255, 65, 108, 0.45);
+.profile,
+.salary,
+.attendance,
+.leave,
+.tasks{
+  background:#ffffff;
 }
 
 /* ── Loading ── */
@@ -169,7 +138,7 @@
     padding: 24px 16px;
   }
   .dashboard-title {
-    font-size: 22px;
+    font-size:2.1rem;
   }
   .dashboard-cards {
     grid-template-columns: 1fr 1fr;
@@ -191,4 +160,37 @@
 }
 .employee-dashboard::before{
   display:none;
+}
+.dashboard-card::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  bottom:0;
+
+  width:100%;
+  height:4px;
+}
+
+/* Individual colors */
+
+.profile::after{
+  background:#6366f1;
+}
+
+.salary::after{
+  background:#10b981;
+}
+
+.attendance::after{
+  background:#f59e0b;
+}
+
+.leave::after{
+  background:#fb923c;
+}
+
+.tasks::after{
+  background:#ef4444;
 }

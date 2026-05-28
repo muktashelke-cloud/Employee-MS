@@ -126,9 +126,7 @@
   transition: 0.2s ease;
 }
 
-.emp-icon-btn:hover svg {
-  transform: scale(1.08);
-}
+
 /* ===== BADGES (DEPARTMENT) ===== */
 .emp-badge {
 
@@ -303,9 +301,7 @@
   background: #fef2f2;
 }
 
-.action-btn:hover {
-  transform: scale(1.1);
-}
+
 .top-bar {
   display: flex;
   gap: 12px;

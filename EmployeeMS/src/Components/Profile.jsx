@@ -1,382 +1,879 @@
-import { useEffect, useState } from "react";
-import api from "../utils/api";
-import "./Profile.css";
-import { createPortal } from "react-dom";
+import { useState } from "react";
 
-const Profile = () => {
-  const [user, setUser] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({});
-  const role = user?.role
+// ── Icons ─────────────────────────────────────────────────────────────────────
+const Icon = ({ d, size = 20, stroke = 2 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={stroke}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {Array.isArray(d) ? (
+      d.map((p, i) => <path key={i} d={p} />)
+    ) : (
+      <path d={d} />
+    )}
+  </svg>
+);
 
-  useEffect(() => {
-    api
-      .get("/auth/me")
-      .then((res) => {
-        if (res.data.status) {
-          setUser(res.data.user);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    console.log("UPDATED USER:", user);
-    console.log("IMAGE PATH 👉", user?.image);
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        address: user.address || "",
-        department: user.department || "",
-        salary: user.salary || "",
-        gender: user.gender || "",
-        dob: user.dob ? user.dob.split("T")[0] : "",
-        joining_date: user.joining_date ? user.joining_date.split("T")[0] : "",
-      });
-    }
-  }, [user]);
-  useEffect(() => {
-    if (editMode) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [editMode]);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await api.put("/auth/update-profile", formData);
-      console.log("RESPONSE 👉", res.data);
-
-      if (res.data.status) {
-        alert("Profile updated successfully ✅");
-
-        // 🔥 MOST IMPORTANT FIX
-        const updated = await api.get("/auth/me");
-
-        console.log("NEW DATA 👉", updated.data.user);
-        console.log("SENDING DATA 👉", formData);
-
-        setUser(updated.data.user);
-
-        setEditMode(false);
-      }
-    } catch (err) {
-      console.log(err);
-      alert("Something went wrong ❌");
-    }
-  };
-
-  // ✅ loading condition (ONLY ONCE)
-  if (!user) {
-    return <div className="text-center mt-5">Loading...</div>;
-  }
-
-  return (
-    <>
-    
-      <div className="profile-page">
-        <div className={`profile-page role-${user.role}`}>
-          <div className="card p-3 shadow profile-card">
-            <div className="profile-avatar">
-              {user.image ? (
-                <img
-                  src={`http://localhost:5000/${user.image}`}
-                  alt="profile"
-                  className="profile-img"
-                />
-              ) : (
-                <span className="avatar-text">
-                  {user.name?.charAt(0).toUpperCase()}
-                </span>
-              )}
-            </div>
-            <hr />
-            <>
-              <p>
-                <strong>Name:</strong> {user.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {user.email}
-              </p>
-
-              {user?.phone && (
-                <p>
-                  <strong>Phone:</strong> {user.phone}
-                </p>
-              )}
-              {user?.address && (
-                <p>
-                  <strong>Address:</strong> {user.address}
-                </p>
-              )}
-
-              {user.role === "employee" && (
-                <>
-                  {user.department && (
-                    <p>
-                      <strong>Department:</strong> {user.department}
-                    </p>
-                  )}
-                  {user.salary !== null && (
-                    <p>
-                      <strong>Salary:</strong> ₹{user.salary}
-                    </p>
-                  )}
-                  {user.gender && (
-                    <p>
-                      <strong>Gender:</strong> {user.gender}
-                    </p>
-                  )}
-                  {user.dob && (
-                    <p>
-                      <strong>DOB:</strong>{" "}
-                      {new Date(user.dob).toLocaleDateString()}
-                    </p>
-                  )}
-                  {user.joining_date && (
-                    <p>
-                      <strong>Joining Date:</strong>{" "}
-                      {new Date(user.joining_date).toLocaleDateString()}
-                    </p>
-                  )}
-                </>
-              )}
-
-              <p>
-                <strong>Role:</strong>
-                <span className="badge bg-success ms-2 text-uppercase">
-                  {user?.role || "—"}
-                </span>
-              </p>
-
-              <button
-                className="edit-btn mt-3"
-                onClick={() => setEditMode(true)}
-              >
-                Edit Profile
-              </button>
-            </>
-          </div>
-        </div>
-        {editMode &&
-          createPortal(
-            <>
-              {/* BACKDROP */}
-              <div
-                style={{
-                  position: "fixed",
-                  inset: 0,
-                  background: "rgba(0,0,0,0.5)",
-                  zIndex: 9998,
-                }}
-              />
-
-              {/* MODAL */}
-              <div
-                style={{
-                  position: "fixed",
-                  inset: 0,
-                  zIndex: 9999,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div
-                  className="modal-content profile-modal p-3"
-                  style={{
-                    width: "720px",
-                    maxWidth: "90%",
-                    overflow: "hidden",
-                    borderRadius: "16px",
-                    margin: "auto",
-                    padding: "24px",
-                  }}
-                >
-                  <div className="modal-header d-flex justify-content-between align-items-center">
-                    <h5 className="mb-0">Edit Profile</h5>
-                    <button
-                      onClick={() => setEditMode(false)}
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        fontSize: "20px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <div className="text-center mb-3">
-                    {user.image ? (
-                      <img
-                        src={`http://localhost:5000/${user.image}`}
-                        alt="profile"
-                        className="profile-img"
-                        style={{
-                          width: "80px",
-                          height: "80px",
-                          borderRadius: "50%",
-                        }}
-                      />
-                    ) : (
-                      <div className="avatar-text">
-                        {user.name?.charAt(0).toUpperCase()}
-                      </div>
-                    )}
-                  </div>
-                  <form onSubmit={handleUpdate}>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr",
-                        gap: "7px",
-                      }}
-                    >
-                      {/* ✅ COMMON FIELDS (ALL ROLES) */}
-
-                      <div>
-                        <label>Name</label>
-                        <input
-                          className="form-control"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Email</label>
-                        <input
-                          className="form-control"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Phone</label>
-                        <input
-                          className="form-control"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      <div>
-                        <label>Address</label>
-                        <input
-                          className="form-control"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      {/* 🔥 ONLY FOR EMPLOYEE */}
-                      {role === "employee" && (
-                        <>
-                          <div>
-                            <label>Department</label>
-                            <input
-                              className="form-control"
-                              name="department"
-                              value={formData.department}
-                              onChange={handleChange}
-                            />
-                          </div>
-
-                          <div>
-                            <label>Salary</label>
-                            <input
-                              className="form-control"
-                              name="salary"
-                              value={formData.salary}
-                              onChange={handleChange}
-                            />
-                          </div>
-
-                          <div>
-                            <label>Gender</label>
-                            <select
-                              className="form-control"
-                              name="gender"
-                              value={formData.gender}
-                              onChange={handleChange}
-                            >
-                              <option value="">Select Gender</option>
-                              <option value="Male">Male</option>
-                              <option value="Female">Female</option>
-                            </select>
-                          </div>
-
-                          <div>
-                            <label>DOB</label>
-                            <input
-                              type="date"
-                              className="form-control"
-                              name="dob"
-                              value={formData.dob}
-                              onChange={handleChange}
-                            />
-                          </div>
-
-                          <div>
-                            <label>Joining Date</label>
-                            <input
-                              type="date"
-                              className="form-control"
-                              name="joining_date"
-                              value={formData.joining_date}
-                              onChange={handleChange}
-                            />
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="d-flex justify-content-end gap-2 mt-3">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => setEditMode(false)}
-                      >
-                        Cancel
-                      </button>
-
-                      <button type="submit" className="btn btn-success">
-                        Save
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </>,
-            document.body,
-          )}
-      </div>
-    </>
-  );
+const icons = {
+  dashboard: [
+    "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
+    "M9 22V12h6v10",
+  ],
+  profile: [
+    "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2",
+    "M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8",
+  ],
+  leave: [
+    "M8 6h13",
+    "M8 12h13",
+    "M8 18h13",
+    "M3 6h.01",
+    "M3 12h.01",
+    "M3 18h.01",
+  ],
+  attendance: [
+    "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2",
+    "M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8",
+    "M23 21v-2a4 4 0 0 0-3-3.87",
+    "M16 3.13a4 4 0 0 1 0 7.75",
+  ],
+  tasks: [
+    "M9 11l3 3L22 4",
+    "M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11",
+  ],
+  timesheet: [
+    "M12 20h9",
+    "M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z",
+  ],
+  logout: [
+    "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4",
+    "M16 17l5-5-5-5",
+    "M21 12H9",
+  ],
+  mail: [
+    "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z",
+    "M22 6l-10 7L2 6",
+  ],
+  phone:
+    "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.17 3.47 2 2 0 0 1 3.11 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z",
+  location: [
+    "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z",
+    "M12 10m-3 0a3 3 0 1 0 6 0 3 3 0 0 0-6 0",
+  ],
+  calendar: ["M3 4h18v18H3z", "M16 2v4", "M8 2v4", "M3 10h18"],
+  clock: ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z", "M12 6v6l4 2"],
+  briefcase: [
+    "M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z",
+    "M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2",
+  ],
+  edit: [
+    "M16.862 3.487a2.1 2.1 0 1 1 2.97 2.97L7.5 18.79 3 20l1.21-4.5L16.862 3.487z",
+  ],
+  message: [
+    "M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z",
+  ],
+  star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  bell: [
+    "M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9",
+    "M13.73 21a2 2 0 0 1-3.46 0",
+  ],
+  chevron: "M9 18l6-6-6-6",
+  menu: ["M3 12h18", "M3 6h18", "M3 18h18"],
+  award: [
+    "M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z",
+    "M8.21 13.89L7 23l5-3 5 3-1.21-9.12",
+  ],
+  trend: ["M23 6l-9.5 9.5-5-5L1 18", "M17 6h6v6"],
 };
 
-export default Profile;
+const navItems = [
+  { key: "dashboard", label: "Dashboard", icon: "dashboard" },
+  { key: "profile", label: "Profile", icon: "profile" },
+  { key: "leave", label: "Leave", icon: "leave" },
+  { key: "attendance", label: "My Attendance", icon: "attendance" },
+  { key: "tasks", label: "My Tasks", icon: "tasks" },
+  { key: "timesheet", label: "Timesheet", icon: "timesheet" },
+];
+
+const employee = {
+  name: "Priya Sharma",
+  title: "Senior Software Engineer",
+  department: "Engineering",
+  employeeId: "EMP-04821",
+  initials: "PS",
+  email: "priya.sharma@techcorp.io",
+  phone: "+91 98765 43210",
+  location: "Pune, Maharashtra",
+  joined: "March 14, 2020",
+  manager: "Rohan Desai",
+  type: "Full-time",
+  status: "Active",
+  rating: 4.8,
+  attendance: 98,
+  tenure: "5 yrs",
+  projects: 42,
+  skills: [
+    "React",
+    "Node.js",
+    "TypeScript",
+    "PostgreSQL",
+    "System Design",
+    "AWS",
+    "GraphQL",
+  ],
+  reports: [
+    {
+      initials: "AK",
+      name: "Aarav Kumar",
+      role: "Software Engineer II",
+      bg: "#e0e7ff",
+      color: "#3730a3",
+    },
+    {
+      initials: "NS",
+      name: "Neha Singh",
+      role: "Junior Developer",
+      bg: "#d1fae5",
+      color: "#065f46",
+    },
+    {
+      initials: "MT",
+      name: "Mihir Tiwari",
+      role: "Intern",
+      bg: "#fef3c7",
+      color: "#92400e",
+    },
+  ],
+};
+
+// ── Sub-components ─────────────────────────────────────────────────────────────
+function StatCard({ value, label, accent, icon }) {
+  return (
+    <div
+      className="stat-card"
+      style={{
+        transition: "0.3s ease",
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        minHeight: "118px",
+        background: "#fdfefe",
+        boxShadow: "0 6px 18px rgba(15,23,42,0.06)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-4px)";
+        e.currentTarget.style.boxShadow = "0 10px 24px rgba(15,23,42,0.08)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0px)";
+        e.currentTarget.style.boxShadow = "0 3px 10px rgba(15,23,42,0.04)";
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            accent === "#fbbf24"
+              ? "linear-gradient(135deg,rgba(251,191,36,0.18) 0%,transparent 65%)"
+              : `linear-gradient(135deg,${accent}14 0%,transparent 65%)`,
+          borderRadius: 16,
+        }}
+      />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <span
+          style={{
+            fontSize: 12,
+            color: "#94a3b8",
+            fontWeight: 500,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+          }}
+        >
+          {label}
+        </span>
+        <div
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: 10,
+            background: `${accent}12`,
+            color: accent,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon d={icons[icon]} size={17} />
+        </div>
+      </div>
+      <span
+        style={{
+          fontSize: 24,
+          fontWeight: 700,
+          color: "#0f172a",
+          fontFamily: "'Sora',sans-serif",
+          lineHeight: 1,
+          marginTop: 4,
+        }}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function InfoField({ icon, label, value, isLink }) {
+  return (
+    <div style={{ padding: "16px 0", borderBottom: "1px solid #f8fafc" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          marginBottom: 4,
+          color: "#94a3b8",
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: "0.06em",
+          textTransform: "uppercase",
+        }}
+      >
+        <Icon d={icons[icon]} size={12} />
+        {label}
+      </div>
+      <p
+        style={{
+          fontSize: 15,
+          fontWeight: 600,
+          color: isLink ? "#2563eb" : "#1e293b",
+        }}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+export default function EmployeeProfile() {
+  const [active, setActive] = useState("profile");
+
+  return (
+    <div
+      style={{
+        fontFamily: "'DM Sans',sans-serif",
+        background: "#f8fafc",
+        minHeight: "100vh",
+        display: "flex",
+      }}
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0;}
+        ::-webkit-scrollbar{width:4px;}
+        ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+        .nav-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;cursor:pointer;transition:all .2s;font-size:14px;font-weight:500;color:#94a3b8;}
+        .nav-item:hover{background:rgba(255,255,255,.07);color:#e2e8f0;}
+        .nav-item.active{background:rgba(255,255,255,.12);color:#fff;}
+        .nav-dot{width:5px;height:5px;border-radius:99px;background:#60a5fa;opacity:0;transition:opacity .2s;margin-left:auto;}
+        .nav-item.active .nav-dot{opacity:1;}
+        .skill-tag{border:1px solid #e2e8f0;border-radius:99px;padding:6px 14px;font-size:13px;font-weight:500;color:#475569;background:#fff;transition:all .2s;cursor:default;}
+        .skill-tag:hover{border-color:#2563eb;color:#2563eb;background:#eff6ff;}
+        .action-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;border:none;}
+        .report-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #f1f5f9;}
+        .report-row:last-child{border-bottom:none;}
+        .icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid #e2e8f0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#94a3b8;}
+        .icon-btn:hover{background:#f8fafc;}
+      `}</style>
+
+      {/* ── Main area ──────────────────────────────────── */}
+      <div
+        style={{
+          marginLeft: 0,
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0,
+        }}
+      >
+        {/* Page */}
+        <main
+          style={{
+            marginTop: 22,
+            padding: "12px 40px 48px",
+            overflowY: "auto",
+            width: "100%",
+            maxWidth: "1380px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            background: "#f3f6fb",
+          }}
+        >
+          {/* Hero Banner */}
+          <div
+            style={{
+              background:
+                "linear-gradient(120deg,#1d4ed8 0%,#1e40af 55%,#1e3a8a 100%)",
+              borderRadius: 20,
+              padding: "28px 40px",
+              display: "flex",
+              alignItems: "center",
+              gap: 36,
+              marginBottom: 14,
+              position: "relative",
+              overflow: "hidden",
+              width: "100%",
+              boxShadow: "0 10px 24px rgba(37,99,235,0.16)",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: -70,
+                right: -70,
+                width: 260,
+                height: 260,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,.04)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: -50,
+                right: 130,
+                width: 180,
+                height: 180,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,.04)",
+              }}
+            />
+
+            {/* Avatar */}
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div
+                style={{
+                  width: 96,
+                  height: 96,
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  border: "4px solid rgba(255,255,255,.25)",
+                  boxShadow: "0 0 0 8px rgba(255,255,255,.08)",
+                  background: "#dbeafe",
+                }}
+              >
+                <img
+                  src="https://i.pravatar.cc/300?img=5"
+                  alt="profile"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 4,
+                  right: 4,
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  border: "3px solid #1d4ed8",
+                }}
+              />
+            </div>
+            {/* Name block */}
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  marginBottom: 6,
+                }}
+              >
+                <h1
+                  style={{
+                    fontFamily: "'Sora',sans-serif",
+                    fontSize: 28,
+                    fontWeight: 800,
+                    color: "#fff",
+                    letterSpacing: "-0.5px",
+                  }}
+                >
+                  {employee.name}
+                </h1>
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 5,
+                    background: "rgba(255,255,255,.12)",
+                    color: "#bfdbfe",
+                    fontSize: 12,
+                    padding: "4px 10px",
+                    borderRadius: 99,
+                    fontWeight: 500,
+                  }}
+                >
+                  <Icon d={icons.award} size={13} /> Top Performer
+                </span>
+              </div>
+              <p
+                style={{
+                  color: "#bfdbfe",
+                  fontSize: 16,
+                  fontWeight: 500,
+                  marginBottom: 16,
+                }}
+              >
+                {employee.title}
+              </p>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                {[
+                  { icon: "briefcase", label: employee.department },
+                  { icon: "location", label: employee.location },
+                ].map(({ icon, label }) => (
+                  <span
+                    key={label}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: "rgba(255,255,255,.12)",
+                      color: "#e0f2fe",
+                      fontSize: 13,
+                      padding: "6px 14px",
+                      borderRadius: 99,
+                      fontWeight: 500,
+                    }}
+                  >
+                    <Icon d={icons[icon]} size={14} />
+                    {label}
+                  </span>
+                ))}
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    background: "#22c55e22",
+                    color: "#86efac",
+                    fontSize: 13,
+                    padding: "6px 14px",
+                    borderRadius: 99,
+                    fontWeight: 500,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 7,
+                      height: 7,
+                      borderRadius: "50%",
+                      background: "#22c55e",
+                      display: "inline-block",
+                    }}
+                  />
+                  {employee.status}
+                </span>
+              </div>
+            </div>
+
+            {/* ID + actions */}
+            <div style={{ textAlign: "right", flexShrink: 0 }}>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: "#93c5fd",
+                  fontWeight: 600,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 4,
+                }}
+              >
+                Employee ID
+              </div>
+              <div
+                style={{
+                  fontFamily: "'Sora',sans-serif",
+                  fontSize: 26,
+                  fontWeight: 800,
+                  color: "#fff",
+                  letterSpacing: "1px",
+                }}
+              >
+                {employee.employeeId}
+              </div>
+              <div
+                style={{
+                  marginTop: 18,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 18,
+                  justifyContent: "flex-end",
+                }}
+              >
+                <button
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    opacity: 0.95,
+                  }}
+                >
+                  <Icon d={icons.edit} size={20} stroke={1.8} />
+                </button>
+
+                <div
+                  style={{
+                    width: "1px",
+                    height: "24px",
+                    background: "rgba(255,255,255,0.22)",
+                  }}
+                />
+
+                <button
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    opacity: 0.95,
+                  }}
+                >
+                  <Icon d={icons.message} size={20} stroke={1.8} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Stat cards */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4,1fr)",
+              gap: 16,
+              marginBottom: 18,
+              alignItems: "stretch",
+            }}
+          >
+            <StatCard
+              value={`${employee.rating}/5`}
+              label="Performance"
+              accent="#8b5cf6"
+              icon="star"
+            />
+            <StatCard
+              value={`${employee.attendance}%`}
+              label="Attendance"
+              accent="#10b981"
+              icon="trend"
+            />
+            <StatCard
+              value={employee.tenure}
+              label="Tenure"
+              accent="#fbbf24"
+              icon="clock"
+            />
+            <StatCard
+              value={employee.projects}
+              label="Projects Done"
+              accent="#3b82f6"
+              icon="tasks"
+            />
+          </div>
+
+          {/* Two-col */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                window.innerWidth < 900 ? "1fr" : "1.25fr 0.75fr",
+              gap: 12,
+              marginBottom: 20,
+            }}
+          >
+            {/* Contact */}
+            <div
+              style={{
+                background: "#fff",
+                borderRadius: 24,
+                padding: "24px",
+                height: "fit-content",
+              }}
+            >
+              <h2
+                style={{
+                  fontFamily: "'Sora',sans-serif",
+                  fontSize: 15,
+                  fontWeight: 700,
+                  color: "#0f172a",
+                }}
+              >
+                Contact &amp; Details
+              </h2>
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "#94a3b8",
+                  marginTop: 2,
+                  marginBottom: 4,
+                }}
+              >
+                Personal and employment information
+              </p>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2,1fr)",
+                  gap: "22px 18px",
+                  marginTop: 18,
+                }}
+              >
+                {[
+                  { label: "Email", value: employee.email, icon: "mail" },
+                  { label: "Phone", value: employee.phone, icon: "phone" },
+                  {
+                    label: "Location",
+                    value: employee.location,
+                    icon: "location",
+                  },
+                  { label: "Joined", value: employee.joined, icon: "calendar" },
+                  {
+                    label: "Manager",
+                    value: employee.manager,
+                    icon: "profile",
+                  },
+                  { label: "Type", value: employee.type, icon: "briefcase" },
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 18,
+                    }}
+                  >
+                    <>
+                      <div
+                        style={{
+                          color: "#94a3b8",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                          marginTop: "2px",
+                        }}
+                      >
+                        <Icon d={icons[item.icon]} size={22} stroke={1.7} />
+                      </div>
+
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 11,
+                            color: "#94a3b8",
+                            marginBottom: 4,
+                            fontWeight: 600,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.05em",
+                          }}
+                        >
+                          {item.label}
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: 15,
+                            fontWeight: 600,
+                            color: "#0f172a",
+                            letterSpacing: "-0.1px",
+                          }}
+                        >
+                          {item.value}
+                        </div>
+                      </div>
+                    </>
+                  </div>
+                ))}
+              </div>{" "}
+            </div>
+
+            {/* Skills + Reports */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 20,
+                justifyContent: "flex-start",
+              }}
+            >
+              <div
+                style={{
+                  background: "#fff",
+                  borderRadius: 20,
+                  padding: "24px",
+                  border: "1px solid #f1f5f9",
+                }}
+              >
+                <h2
+                  style={{
+                    fontFamily: "'Sora',sans-serif",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: "#0f172a",
+                  }}
+                >
+                  Skills &amp; Expertise
+                </h2>
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: "#94a3b8",
+                    marginTop: 2,
+                    marginBottom: 16,
+                  }}
+                >
+                  Technical skills and specialisations
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {employee.skills.map((s) => (
+                    <span key={s} className="skill-tag">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div
+                style={{
+                  background: "#ffffff",
+                  boxShadow: "0 4px 18px rgba(15,23,42,0.05)",
+                  border: "1px solid #eef2f7",
+                  boxShadow: "0 4px 18px rgba(15,23,42,0.04)",
+                  background: "#ffffff",
+                  borderRadius: 20,
+                  padding: "22px",
+                  border: "1px solid #eef2f7",
+                  boxShadow: "0 4px 14px rgba(15,23,42,0.04)",
+                  width: "100%",
+                }}
+              >
+                <h2
+                  style={{
+                    fontFamily: "'Sora',sans-serif",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: "#0f172a",
+                  }}
+                >
+                  Direct Reports
+                </h2>
+                <p
+                  style={{
+                    fontSize: 12,
+                    color: "#94a3b8",
+                    marginTop: 2,
+                    marginBottom: 8,
+                  }}
+                >
+                  Team members reporting to Priya
+                </p>
+                {employee.reports.map((r) => (
+                  <div
+                    key={r.name}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "6px 0",
+                      borderBottom: "1px solid #f1f5f9",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: "50%",
+                          background: r.bg,
+                          color: r.color,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: 700,
+                          fontSize: 14,
+                        }}
+                      >
+                        {r.initials}
+                      </div>
+
+                      <div>
+                        <h4
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 700,
+                            color: "#0f172a",
+                            marginBottom: 2,
+                          }}
+                        >
+                          {r.name}
+                        </h4>
+
+                        <p
+                          style={{
+                            fontSize: 13,
+                            color: "#64748b",
+                          }}
+                        >
+                          {r.role}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button className="icon-btn">
+                      <Icon d={icons.message} size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

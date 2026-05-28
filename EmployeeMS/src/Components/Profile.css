@@ -1,14 +1,19 @@
 /* 🔥 SCOPE ADD केला */
 .profile-page .profile-card {
-  width: 500px;
+ 
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   margin: auto;
+  width:620px;
+
+  margin:20px auto;
+
+  padding:26px 30px;
 }
 
 .profile-page .profile-avatar {
-  width: 100px;
-  height: 100px;
+  width: 95px;
+  height: 95px;
   border-radius: 50%;
   background: #6b7280;
   color: white;
@@ -28,7 +33,7 @@
 }
 
 .profile-page .avatar-text {
-  font-size: 26px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -159,4 +164,79 @@
 }
 .profile-page .edit-btn:hover {
   background: #1f2937;
+}
+.profile-page .profile-card {
+
+  width: 650px;
+
+  max-width: 95%;
+
+  margin: 8px auto;
+
+  padding: 30px;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+}
+
+.profile-page .form-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 22px 28px;
+
+  margin-top: 22px;
+}
+
+.profile-page .form-group {
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.profile-page .form-group label {
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: #6b7280;
+
+  margin-bottom: 5px;
+}
+
+.profile-page .form-group p {
+
+  margin: 0;
+
+  font-size: 17px;
+
+  font-weight: 500;
+
+  color: #111827;
+}
+
+.profile-page .role-badge {
+
+  width: fit-content;
+
+  padding: 6px 12px;
+
+  font-size: 12px;
+
+  border-radius: 999px;
+}
+
+.profile-page .edit-btn {
+
+  margin-top: 32px;
+}
+
+.profile-page .profile-avatar {
+
+  margin-bottom: 0px;
 }

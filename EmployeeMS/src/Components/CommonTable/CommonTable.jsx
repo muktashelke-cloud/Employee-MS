@@ -6,6 +6,7 @@ const CommonTable = ({
   columns = [],
   data = [],
   tableClass = "",
+  cardClass = "",
   renderRow,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +28,7 @@ const CommonTable = ({
   }
 
   return (
-    <div className="common-table-card">
+   <div className={`common-table-card ${cardClass}`}>
       {/* TOPBAR */}
 
       <div className="table-topbar">
