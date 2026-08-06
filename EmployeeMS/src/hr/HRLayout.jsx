@@ -1,26 +1,19 @@
 import { Outlet } from "react-router-dom";
-
 import Sidebar from "../Components/Sidebar/Sidebar";
 import TopNavbar from "../Components/TopNavbar";
 
-import "./HRLayout.css";
-
 const HRLayout = () => {
   return (
-      <div className="admin-main">
+    <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-gray-100">
+      <TopNavbar />
 
-        <TopNavbar />
+      <div className="flex min-h-screen w-full bg-gray-100">
+        <Sidebar />
 
-      <div className="admin-container">
-
-      <Sidebar />
-
-        <div className="admin-content">
+        <div className="flex-1 p-6 pt-0 overflow-x-hidden">
           <Outlet />
         </div>
-
       </div>
-
     </div>
   );
 };
