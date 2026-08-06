@@ -14,6 +14,7 @@ import allocationRoutes from "./routes/allocation.route.js";
 import timesheetRoutes from "./routes/timesheet.route.js";
 import taskRouter from "./routes/task.route.js";
 import employeeRoutes from "./routes/employee.route.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
 
 
 
@@ -49,6 +50,7 @@ app.use("/allocations", allocationRoutes);
 app.use("/timesheets", timesheetRoutes);
 app.use("/tasks", taskRouter); 
 app.use("/employee", employeeRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 /* ======================================================
    ⭐ AUTO ABSENT CRON JOB

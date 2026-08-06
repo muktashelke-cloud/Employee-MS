@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 const Icon = ({ d, size = 20, stroke = 2 }) => (
@@ -153,29 +156,44 @@ const employee = {
 };
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
-function StatCard({ value, label, accent, icon }) {
+function StatCard({ value, label, accent, icon, subtitle }) {
   return (
     <div
       className="stat-card"
       style={{
         transition: "0.3s ease",
-        cursor: "pointer",
+        cursor: "default",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        minHeight: "118px",
+        minHeight: "105px",
+        padding: "10px",
+        borderRadius: "18px",
+        position: "relative",
+        overflow: "hidden",
         background: "#fdfefe",
         boxShadow: "0 6px 18px rgba(15,23,42,0.06)",
+        transition: "all 0.3s ease",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = "0 10px 24px rgba(15,23,42,0.08)";
+        e.currentTarget.style.transform = "translateY(-6px)";
+        e.currentTarget.style.boxShadow = "0 20px 40px rgba(15,23,42,0.12)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0px)";
-        e.currentTarget.style.boxShadow = "0 3px 10px rgba(15,23,42,0.04)";
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "0 12px 28px rgba(15,23,42,0.08)";
       }}
     >
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 4,
+          background: accent,
+        }}
+      />
       <div
         style={{
           position: "absolute",
@@ -187,6 +205,7 @@ function StatCard({ value, label, accent, icon }) {
           borderRadius: 16,
         }}
       />
+
       <div
         style={{
           display: "flex",
@@ -207,14 +226,11 @@ function StatCard({ value, label, accent, icon }) {
         </span>
         <div
           style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            background: `${accent}12`,
-            color: accent,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            color: "#64748b",
+            textTransform: "uppercase",
           }}
         >
           <Icon d={icons[icon]} size={17} />
@@ -222,16 +238,25 @@ function StatCard({ value, label, accent, icon }) {
       </div>
       <span
         style={{
-          fontSize: 24,
-          fontWeight: 700,
+          fontSize: 30,
+          fontWeight: 800,
           color: "#0f172a",
           fontFamily: "'Sora',sans-serif",
-          lineHeight: 1,
-          marginTop: 4,
+          letterSpacing: "-1px",
         }}
       >
         {value}
       </span>
+      <div
+        style={{
+          marginTop: 6,
+          fontSize: 12,
+          color: "#64748b",
+          fontWeight: 600,
+        }}
+      >
+        {subtitle}
+      </div>
     </div>
   );
 }
@@ -271,6 +296,14 @@ function InfoField({ icon, label, value, isLink }) {
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function EmployeeProfile() {
   const [active, setActive] = useState("profile");
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  console.log("PROFILE USER", user);
+  const [showMessage, setShowMessage] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [showDirectReportMsg, setShowDirectReportMsg] = useState(false);
+  const [selectedMember, setSelectedMember] = useState("");
+  console.log(user);
 
   return (
     <div
@@ -313,14 +346,14 @@ export default function EmployeeProfile() {
         {/* Page */}
         <main
           style={{
-            marginTop: 22,
-            padding: "12px 40px 48px",
+            marginTop: 12,
+            padding: "12px 24px 48px",
             overflowY: "auto",
             width: "100%",
-            maxWidth: "1380px",
+            maxWidth: "1600px",
             marginLeft: "auto",
             marginRight: "auto",
-            background: "#f3f6fb",
+            background: "linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%)",
           }}
         >
           {/* Hero Banner */}
@@ -329,10 +362,10 @@ export default function EmployeeProfile() {
               background:
                 "linear-gradient(120deg,#1d4ed8 0%,#1e40af 55%,#1e3a8a 100%)",
               borderRadius: 20,
-              padding: "28px 40px",
+              padding: "20px 28px",
               display: "flex",
               alignItems: "center",
-              gap: 36,
+              gap: 24,
               marginBottom: 14,
               position: "relative",
               overflow: "hidden",
@@ -367,12 +400,12 @@ export default function EmployeeProfile() {
             <div style={{ position: "relative", flexShrink: 0 }}>
               <div
                 style={{
-                  width: 96,
-                  height: 96,
+                  width: 78,
+                  height: 78,
                   borderRadius: "50%",
                   overflow: "hidden",
                   border: "4px solid rgba(255,255,255,.25)",
-                  boxShadow: "0 0 0 8px rgba(255,255,255,.08)",
+                  boxShadow: "0 0 0 5px rgba(255,255,255,.08)",
                   background: "#dbeafe",
                 }}
               >
@@ -413,7 +446,7 @@ export default function EmployeeProfile() {
                 <h1
                   style={{
                     fontFamily: "'Sora',sans-serif",
-                    fontSize: 28,
+                    fontSize: 24,
                     fontWeight: 800,
                     color: "#fff",
                     letterSpacing: "-0.5px",
@@ -440,7 +473,7 @@ export default function EmployeeProfile() {
               <p
                 style={{
                   color: "#bfdbfe",
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: 500,
                   marginBottom: 16,
                 }}
@@ -532,6 +565,7 @@ export default function EmployeeProfile() {
                 }}
               >
                 <button
+                  onClick={() => navigate(`/employee/edit-employee/${user.id}`)}
                   style={{
                     background: "transparent",
                     border: "none",
@@ -556,6 +590,7 @@ export default function EmployeeProfile() {
                 />
 
                 <button
+                  onClick={() => setShowMessage(!showMessage)}
                   style={{
                     background: "transparent",
                     border: "none",
@@ -574,37 +609,119 @@ export default function EmployeeProfile() {
             </div>
           </div>
 
+          {showMessage && (
+            <div
+              style={{
+                position: "absolute",
+                top: 110,
+                right: 30,
+                width: 300,
+                background: "#ffffff",
+                borderRadius: 18,
+                padding: 16,
+                boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+                zIndex: 100,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 12,
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    margin: 0,
+                  }}
+                >
+                  Messages
+                </h3>
+
+                <button
+                  onClick={() => setShowMessage(false)}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: 20,
+                    fontWeight: 700,
+                    color: "#64748b",
+                    padding: 0,
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div
+                style={{
+                  padding: 12,
+                  background: "#f8fafc",
+                  borderRadius: 12,
+                  marginBottom: 10,
+                }}
+              >
+                <b>HR Team</b>
+
+                <p style={{ fontSize: 14 }}>Your payslip is available.</p>
+              </div>
+
+              <div
+                style={{
+                  padding: 12,
+                  background: "#f8fafc",
+                  borderRadius: 12,
+                }}
+              >
+                <b>Manager</b>
+
+                <p style={{ fontSize: 14 }}>Please submit today's timesheet.</p>
+              </div>
+            </div>
+          )}
+
           {/* Stat cards */}
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(4,1fr)",
               gap: 16,
-              marginBottom: 18,
+              marginBottom: 14,
               alignItems: "stretch",
             }}
           >
             <StatCard
               value={`${employee.rating}/5`}
               label="Performance"
+              subtitle="Excellent Rating"
               accent="#8b5cf6"
               icon="star"
             />
+
             <StatCard
               value={`${employee.attendance}%`}
               label="Attendance"
+              subtitle="This Month"
               accent="#10b981"
               icon="trend"
             />
+
             <StatCard
               value={employee.tenure}
               label="Tenure"
+              subtitle="With Company"
               accent="#fbbf24"
               icon="clock"
             />
+
             <StatCard
               value={employee.projects}
               label="Projects Done"
+              subtitle="Completed This Month"
               accent="#3b82f6"
               icon="tasks"
             />
@@ -614,8 +731,7 @@ export default function EmployeeProfile() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns:
-                window.innerWidth < 900 ? "1fr" : "1.25fr 0.75fr",
+              gridTemplateColumns: "1.25fr 0.75fr",
               gap: 12,
               marginBottom: 20,
             }}
@@ -627,13 +743,25 @@ export default function EmployeeProfile() {
                 borderRadius: 24,
                 padding: "24px",
                 height: "fit-content",
+                border: "1px solid #eef2f7",
+                boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
+                marginTop: -2,
               }}
             >
+              <div
+                style={{
+                  width: 55,
+                  height: 4,
+                  borderRadius: 99,
+                  background: "linear-gradient(90deg,#2563eb,#60a5fa)",
+                  marginBottom: 14,
+                }}
+              />
               <h2
                 style={{
                   fontFamily: "'Sora',sans-serif",
-                  fontSize: 15,
-                  fontWeight: 700,
+                  fontSize: 18,
+                  fontWeight: 800,
                   color: "#0f172a",
                 }}
               >
@@ -684,12 +812,16 @@ export default function EmployeeProfile() {
                     <>
                       <div
                         style={{
-                          color: "#94a3b8",
+                          width: 42,
+                          height: 42,
+                          borderRadius: 12,
+                          background: "#f8fafc",
+                          border: "1px solid #e2e8f0",
+                          color: "#64748b",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           flexShrink: 0,
-                          marginTop: "2px",
                         }}
                       >
                         <Icon d={icons[item.icon]} size={22} stroke={1.7} />
@@ -740,14 +872,15 @@ export default function EmployeeProfile() {
                   background: "#fff",
                   borderRadius: 20,
                   padding: "24px",
-                  border: "1px solid #f1f5f9",
+                  border: "1px solid #eef2f7",
+                  boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
                 }}
               >
                 <h2
                   style={{
                     fontFamily: "'Sora',sans-serif",
-                    fontSize: 15,
-                    fontWeight: 700,
+                    fontSize: 18,
+                    fontWeight: 800,
                     color: "#0f172a",
                   }}
                 >
@@ -775,22 +908,17 @@ export default function EmployeeProfile() {
               <div
                 style={{
                   background: "#ffffff",
-                  boxShadow: "0 4px 18px rgba(15,23,42,0.05)",
-                  border: "1px solid #eef2f7",
-                  boxShadow: "0 4px 18px rgba(15,23,42,0.04)",
-                  background: "#ffffff",
                   borderRadius: 20,
                   padding: "22px",
                   border: "1px solid #eef2f7",
-                  boxShadow: "0 4px 14px rgba(15,23,42,0.04)",
-                  width: "100%",
+                  boxShadow: "0 10px 30px rgba(15,23,42,0.06)",
                 }}
               >
                 <h2
                   style={{
                     fontFamily: "'Sora',sans-serif",
-                    fontSize: 15,
-                    fontWeight: 700,
+                    fontSize: 18,
+                    fontWeight: 800,
                     color: "#0f172a",
                   }}
                 >
@@ -864,11 +992,49 @@ export default function EmployeeProfile() {
                       </div>
                     </div>
 
-                    <button className="icon-btn">
+                    <button
+                      className="icon-btn"
+                      onClick={() => setSelectedMember(r.name)}
+                    >
                       <Icon d={icons.message} size={14} />
                     </button>
                   </div>
                 ))}
+                {selectedMember && (
+                  <div
+                    style={{
+                      marginTop: 12,
+                      padding: 12,
+                      borderRadius: 12,
+                      background: "#f8fafc",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>Message {selectedMember} feature coming soon.</span>
+
+                      <button
+                        onClick={() => setSelectedMember("")}
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          cursor: "pointer",
+                          fontSize: 18,
+                          fontWeight: 700,
+                          color: "#64748b",
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

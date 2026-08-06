@@ -20,6 +20,7 @@ import EmployeeLayout from "./employee/EmployeeLayout";
 import EmployeeDashboard from "./employee/EmployeeDashboard";
 import Leave from "./employee/Leave";
 import AttendanceCalendar from "./employee/AttendanceCalendar";
+import EmployeeNotifications from "./employee/EmployeeNotifications";
 
 import Employee from "./Components/Employee";
 import Profile from "./Components/Profile";
@@ -37,7 +38,8 @@ import "react-toastify/dist/ReactToastify.css";
 import EmployeeTasks from "./Components/EmployeeTasks";
 import Timesheet from "./pages/Timesheet";
 import AdminTimesheet from "./pages/AdminTimesheet";
-
+import EmployeePayslip from "./employee/EmployeePayslip";
+import Settings from "./pages/Settings";
 function App() {
   return (
     <>
@@ -60,6 +62,7 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="leave" element={<HRLeave />} />
           <Route path="employees" element={<Employee />} />
           <Route path="monthly-report" element={<MonthlyReport />} />
@@ -104,6 +107,7 @@ function App() {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<HRDashboard />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="leave" element={<HRLeave />} /> {/* FIX */}
           <Route path="attendance" element={<AttendanceCalendar />} />
           <Route path="timesheets" element={<AdminTimesheet />} />
@@ -144,11 +148,14 @@ function App() {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<EmployeeDashboard />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="leave" element={<Leave />} />
           <Route path="attendance" element={<AttendanceCalendar />} />
+          <Route path="notifications" element={<EmployeeNotifications />}/>
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="tasks" element={<EmployeeTasks />} />
           <Route path="timesheet" element={<Timesheet />} />
+          <Route path="payslip" element={<EmployeePayslip />} />
 
           <Route
             path="edit-employee/:id"

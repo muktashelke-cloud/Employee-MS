@@ -1,3 +1,30 @@
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.attendance-calendar .fc-toolbar-title{
+  transform: translateY(10px);
+}
+.attendance-calendar .fc-header-toolbar {
+  display: grid !important;
+  grid-template-columns: 180px 1fr 180px !important;
+  align-items: center !important;
+}
+
+.attendance-calendar .fc-toolbar-chunk:nth-child(1) {
+  justify-self: start;
+}
+
+.attendance-calendar .fc-toolbar-chunk:nth-child(2) {
+  justify-self: center;
+}
+
+.attendance-calendar .fc-toolbar-chunk:nth-child(3) {
+  justify-self: end;
+}
+
+.attendance-calendar .fc-toolbar-title {
+  margin: 0 !important;
+}

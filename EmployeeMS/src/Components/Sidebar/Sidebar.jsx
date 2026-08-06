@@ -3,17 +3,6 @@ import { useState, useEffect } from "react";
 import api from "../../utils/api";
 import "./Sidebar.css";
 import { Menu } from "lucide-react";
-import {
-  LayoutDashboard,
-  Users,
-  UserCog,
-  UserRound,
-  FileText,
-  CalendarCheck,
-  ClipboardList,
-  Briefcase,
-  LogOut,
-} from "lucide-react";
 
 import {
   FaUsers,
@@ -23,6 +12,9 @@ import {
   FaFileAlt,
   FaCalendarCheck,
   FaSignOutAlt,
+  FaReceipt,
+  FaTasks,
+  FaClock,
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -118,18 +110,23 @@ const Sidebar = () => {
             </NavLink>
 
             <NavLink to={`${basePath}/tasks`} className={activeStyle}>
-              <FaFileAlt />
+              <FaTasks />
               {!collapsed && <span>My Tasks</span>}
             </NavLink>
 
             {/* ✅ MY TIMESHEET */}
             <NavLink to={`${basePath}/timesheet`} className={activeStyle}>
-              <FaFileAlt />
+              <FaClock />
               {!collapsed && <span>Timesheet</span>}
+            </NavLink>
+            <NavLink to={`${basePath}/payslip`} className={activeStyle}>
+              <FaReceipt />
+
+              {!collapsed && <span>Payslip</span>}
             </NavLink>
           </>
         )}
-        {/* HR Attendance */}
+
         {/* HR Attendance */}
         {role === "hr" && (
           <>

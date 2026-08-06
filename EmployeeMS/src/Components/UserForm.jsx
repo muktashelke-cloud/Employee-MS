@@ -21,7 +21,7 @@ const UserForm = ({ type }) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { setUser } = useContext(AuthContext); // ✅ auth user
+  const { user } = useContext(AuthContext); // ✅ auth user
 
   const [errors, setErrors] = useState({});
 
@@ -228,20 +228,40 @@ const UserForm = ({ type }) => {
     console.log(res);
 
     if (res.data.status) {
-      alert(`${type} saved successfully`);
 
-      // NAVIGATION
-      if (type === "employee") {
-        navigate("/hr/employees");
-      } else if (type === "hr") {
-        navigate("/admin/manage-hr");
-      } else if (type === "admin") {
-        navigate("/admin/manage-admin");
-      }
+  alert(`${type} saved successfully`);
 
-    } else {
-      alert("Operation failed");
+  // NAVIGATION
+
+  if (type === "employee") {
+
+    if (user?.role === "employee") {
+
+      navigate("/employee/profile");
+
+    } else if (user?.role === "hr") {
+
+      navigate("/hr/employees");
+
+    } else if (user?.role === "admin") {
+
+      navigate("/admin/employees");
     }
+
+  } else if (type === "hr") {
+
+    navigate("/admin/manage-hr");
+
+  } else if (type === "admin") {
+
+    navigate("/admin/manage-admin");
+  }
+
+} else {
+
+  alert("Operation failed");
+
+}
 
   } catch (err) {
     console.log(err);
@@ -251,9 +271,21 @@ const UserForm = ({ type }) => {
 
   return (
     <CommonForm
-      title={id ? `Update ${type}` : `Add ${type}`}
+      title={
+  id && user?.role === "employee"
+    ? "Edit Profile"
+    : id
+    ? `Update ${type}`
+    : `Add ${type}`
+}
       onSubmit={handleSubmit}
-      submitText={id ? "Update Details" : `Add ${type}`}
+      submitText={
+  id && user?.role === "employee"
+    ? "Save Changes"
+    : id
+    ? "Update Details"
+    : `Add ${type}`
+}
     >
       <div className="input-icon">
         <User size={17} className="form-icon" />

@@ -5,11 +5,16 @@ import "./TopNavbar.css";
 import { FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 
 import { useLocation, useNavigate } from "react-router-dom";
+import { Search, BriefcaseBusiness } from "lucide-react";
 
 const TopNavbar = () => {
   const [user, setUser] = useState(null);
 
   const [open, setOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+
+  const unreadCount = notifications.filter((item) => item.is_read === 0).length;
 
   const dropdownRef = useRef();
 
@@ -28,7 +33,7 @@ const TopNavbar = () => {
   } else if (location.pathname.includes("/monthly-report")) {
     title = "Monthly Attendance";
   } else if (location.pathname.includes("/leave")) {
-    title = "Leave Management";
+    title = "My Leave";
   } else if (location.pathname.includes("/attendance-management")) {
     title = "Attendance Management";
   } else if (location.pathname.includes("/attendance-calendar")) {
@@ -43,8 +48,17 @@ const TopNavbar = () => {
     title = "Edit Admin";
   } else if (location.pathname.includes("/manage-hr")) {
     title = "Manage HR";
-  } else if (location.pathname.includes("/timesheets")) {
-    title = "Employee Timesheets";
+  } else if (
+    location.pathname.includes("/timesheet") ||
+    location.pathname.includes("/timesheets")
+  ) {
+    title = "Timesheet";
+  } else if (location.pathname.includes("/tasks")) {
+    title = "My Tasks";
+  } else if (location.pathname.includes("/notifications")) {
+    title = "Notifications";
+  } else if (location.pathname.includes("/payslip")) {
+    title = "Payslip";
   }
 
   /* PANEL NAME */
@@ -68,17 +82,31 @@ const TopNavbar = () => {
     api
       .get("/auth/me")
       .then((res) => {
+        console.log(res.data);
         setUser(res.data.user || res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    if (!user?.id) return;
+
+    api
+      .get(`/api/notifications/${user.id}`)
+
+      .then((res) => {
+        setNotifications(res.data);
+      })
+
+      .catch((err) => console.log(err));
+  }, [user]);
   /* CLOSE DROPDOWN */
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
+        setNotificationOpen(false);
       }
     };
 
@@ -89,15 +117,51 @@ const TopNavbar = () => {
 
   /* LOGOUT */
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
+    localStorage.clear();
+
+    navigate("/login");
+  };
+
+  const handleSettings = () => {
+    setOpen(false);
+
+    if (user?.role === "admin" || user?.role === "superadmin") {
+      navigate("/admin/settings");
+    } else if (user?.role === "hr") {
+      navigate("/hr/settings");
+    } else {
+      navigate("/employee/settings");
+    }
+  };
+  const markAllRead = async () => {
     try {
-      await api.post("/auth/logout");
+      await api.put(`/api/notifications/read/${user.id}`);
 
-      localStorage.clear();
+      setNotifications(
+        notifications.map((item) => ({
+          ...item,
 
-      navigate("/login");
+          is_read: 1,
+        })),
+      );
     } catch (error) {
       console.log(error);
+    }
+  };
+  const handleProfile = () => {
+    console.log("CURRENT USER", user);
+
+    console.log(user);
+
+    setOpen(false);
+
+    if (user?.role === "admin" || user?.role === "superadmin") {
+      navigate("/admin/profile");
+    } else if (user?.role === "hr") {
+      navigate("/hr/profile");
+    } else {
+      navigate("/employee/profile");
     }
   };
 
@@ -111,7 +175,7 @@ const TopNavbar = () => {
       border-b border-slate-200
       flex items-center justify-between
       px-8
-      shadow-sm
+      shadow-[0_8px_30px_rgba(15,23,42,0.06)]
     "
     >
       {/* LEFT */}
@@ -122,7 +186,7 @@ const TopNavbar = () => {
           font-semibold
           tracking-[0.12em]
           uppercase
-          text-slate-500
+          text-indigo-600
           leading-none
           mb-1
         "
@@ -132,11 +196,12 @@ const TopNavbar = () => {
 
         <h2
           className="
-          text-[24px]
-font-extrabold tracking-[-0.4px]
-          text-slate-900
-          leading-none
-        "
+text-[28px]
+font-black
+tracking-[-0.6px]
+text-slate-900
+leading-none
+"
         >
           {title}
         </h2>
@@ -146,60 +211,125 @@ font-extrabold tracking-[-0.4px]
       <div className="relative flex items-center gap-3" ref={dropdownRef}>
         {/* Notification */}
         <button
-          className="
-          w-[44px] h-[44px]
-          rounded-2xl
-          border border-slate-100
-          bg-white
-          flex items-center justify-center
-          hover:bg-slate-50
-          hover:shadow-md
-          hover:-translate-y-[1px]
-          transition-all duration-200
-        "
-        >
-          <div className="relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-5 text-slate-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
-              a6.002 6.002 0 00-4-5.659V5
-              a2 2 0 10-4 0v.341C7.67 6.165
-              6 8.388 6 11v3.159c0 .538-.214 1.055-.595
-              1.436L4 17h5m6 0v1a3 3 0
-              11-6 0v-1m6 0H9"
-              />
-            </svg>
+          onClick={() => {
+            setNotificationOpen(!notificationOpen);
 
+            setOpen(false);
+          }}
+          className="
+  relative
+  w-[50px] h-[50px]
+  rounded-[18px]
+  bg-gradient-to-br from-white to-slate-50
+  shadow-[0_8px_24px_rgba(15,23,42,0.08)]
+  border border-slate-100
+  flex items-center justify-center
+  hover:-translate-y-[1px]
+  transition-all duration-200
+"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5 text-slate-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11
+      a6.002 6.002 0 00-4-5.659V5
+      a2 2 0 10-4 0v.341C7.67 6.165
+      6 8.388 6 11v3.159c0 .538-.214
+      1.055-.595 1.436L4 17h5m6
+      0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+
+          {unreadCount > 0 && (
             <span
               className="
-              absolute -top-1 -right-1
-              w-2 h-2
-              rounded-full
-              bg-red-500
-              border border-white
-            "
-            />
-          </div>
+      absolute
+      top-2
+      right-2
+      min-w-[18px]
+      h-[18px]
+      px-1
+      rounded-full
+      bg-red-500
+      text-white
+      text-[10px]
+      font-bold
+      flex items-center justify-center
+    "
+            >
+              {unreadCount}
+            </span>
+          )}
         </button>
+        {notificationOpen && (
+          <div
+            className="
+    absolute
+    right-0
+    top-16
+    w-80
+    bg-white
+    border
+    border-slate-200
+    rounded-3xl
+    shadow-[0_20px_50px_rgba(15,23,42,0.12)]
+    p-4
+    z-50
+  "
+          >
+            <div className="flex justify-between mb-4">
+              <h3 className="font-bold">Notifications</h3>
 
+              <button
+                onClick={markAllRead}
+                className="
+
+text-xs
+
+text-indigo-600
+
+hover:text-indigo-700
+
+"
+              >
+                Mark all read
+              </button>
+            </div>
+
+            {notifications.map((item) => (
+              <div
+                key={item.id}
+                className={`
+        p-3
+        rounded-xl
+        mb-2
+
+        ${item.is_read === 0 ? "bg-indigo-50" : "bg-slate-50"}
+      `}
+              >
+                {item.message}
+              </div>
+            ))}
+          </div>
+        )}
         {/* USER CARD */}
         <div
           onClick={() => setOpen(!open)}
           className="
           flex items-center gap-3
-          bg-white
+          bg-gradient-to-br from-white to-slate-50
           border border-slate-200
-          rounded-[20px]
-          px-3 py-2
+          rounded-[18px]
+          px-3 py-1.5
+          shadow-[0_10px_30px_rgba(15,23,42,0.06)]
           cursor-pointer
           hover:shadow-md
           transition-all
@@ -208,16 +338,18 @@ font-extrabold tracking-[-0.4px]
           {/* Avatar */}
           <div
             className="
-            w-10 h-10
-            rounded-full
-            bg-gradient-to-br
-            from-blue-500 to-blue-700
-            text-white
-            flex items-center justify-center
-            font-bold text-sm
-            overflow-hidden
-            shrink-0
-          "
+w-12 h-12
+rounded-full
+bg-gradient-to-br
+from-blue-500 to-blue-700
+text-white
+flex items-center justify-center
+font-bold text-sm
+overflow-hidden
+shrink-0
+ring-2 ring-white
+shadow-[0_6px_14px_rgba(59,130,246,0.15)]
+"
           >
             {isProfilePage ? (
               <span>{user?.name?.charAt(0)}</span>
@@ -270,14 +402,15 @@ font-extrabold tracking-[-0.4px]
             w-56
             bg-white
             border border-slate-200
-            rounded-2xl
+            rounded-3xl
             shadow-[0_20px_50px_rgba(15,23,42,0.12)]
             p-2
             animate-in fade-in zoom-in
+            backdrop-blur-xl
           "
           >
             <button
-              onClick={() => navigate("/profile")}
+              onClick={handleProfile}
               className="
               w-full
               flex items-center gap-3
@@ -295,16 +428,16 @@ font-extrabold tracking-[-0.4px]
             </button>
 
             <button
+              onClick={handleSettings}
               className="
-              w-full
-              flex items-center gap-3
-              px-4 py-3
-              rounded-xl
-              text-sm font-medium
-              text-slate-700
-              hover:bg-slate-50
-              transition
-            "
+  w-full
+  flex items-center gap-3
+  px-4 py-3
+  rounded-xl
+  text-sm font-medium
+  text-slate-700
+  hover:bg-slate-50
+"
             >
               <FiSettings className="text-[17px]" />
               Settings

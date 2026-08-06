@@ -209,9 +209,10 @@ router.get(
 );
 router.get("/all-leaves", (req, res) => {
   const sql = `
-SELECT 
+SELECT
   lr.id,
-  lr.employee_email, 
+  lr.employee_email,
+  lr.leave_type,
   lr.from_date,
   lr.to_date,
   lr.reason,
@@ -575,34 +576,111 @@ router.post(
   "/apply-leave",
   verifyUser(["employee"]),
   upload.array("documents", 5),
+
   (req, res) => {
-    const { from_date, to_date, reason } = req.body;
+
+    console.log("BODY:", req.body);
+
+    console.log("FILES:", req.files);
+
+    const {
+      leave_type,
+      from_date,
+      to_date,
+      reason
+    } = req.body;
+
     const employee_email = req.user.email;
 
     const documents = req.files
-      ? req.files.map((file) => `uploads/documents/${file.filename}`).join(",")
+      ? req.files
+          .map(
+            file =>
+            `uploads/documents/${file.filename}`
+          )
+          .join(",")
+
       : null;
 
     const sql = `
       INSERT INTO leave_requests
-      (employee_email, from_date, to_date, reason, document, status)
-      VALUES (?, ?, ?, ?, ?, 'pending')
+      (
+        employee_email,
+        leave_type,
+        from_date,
+        to_date,
+        reason,
+        document,
+        status
+      )
+
+      VALUES
+      (
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        'Pending'
+      )
     `;
 
     conUser.query(
+
       sql,
-      [employee_email, from_date, to_date, reason, documents],
+
+      [
+
+        employee_email,
+
+        leave_type,
+
+        from_date,
+
+        to_date,
+
+        reason,
+
+        documents
+
+      ],
+
       (err) => {
+
         if (err) {
-          console.log("SQL ERROR:", err);
-          return res.json({ status: false });
+
+          console.log(
+            "SQL ERROR:",
+            err
+          );
+
+          return res.json({
+
+            status:false,
+
+            message:
+              err.message
+
+          });
+
         }
 
-        res.json({ status: true });
-      },
+        return res.json({
+
+          status:true
+
+        });
+
+      }
+
     );
-  },
+
+  }
+
 );
+
+
 router.get(
   "/employee-attendance",
   verifyUser(["employee", "hr", "admin"]),

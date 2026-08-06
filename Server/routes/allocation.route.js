@@ -201,18 +201,19 @@ router.get("/my", verifyUser(["employee"]), (req, res) => {
   console.log("👉 EMPLOYEE ID:", empId);
 
   const sql = `
-    SELECT 
-      a.id,
-      a.project_id,
-      a.task_id,
-      t.name AS task_name,   -- 🔥 FIX
-      a.percentage,
-      p.name AS project
-    FROM allocations a
-    LEFT JOIN projects p ON a.project_id = p.id
-    LEFT JOIN tasks t ON a.task_id = t.id   
-    WHERE a.employee_id = ?
-  `;
+  SELECT 
+    a.id,
+    a.project_id,
+    a.task_id,
+    t.name AS task_name,
+    a.percentage,
+    a.status,
+    p.name AS project
+  FROM allocations a
+  LEFT JOIN projects p ON a.project_id = p.id
+  LEFT JOIN tasks t ON a.task_id = t.id
+  WHERE a.employee_id = ?
+`;
 
   conEMS.query(sql, [empId], (err, result) => {
     if (err) {
