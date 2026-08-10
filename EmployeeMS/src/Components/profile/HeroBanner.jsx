@@ -1,136 +1,342 @@
-import { Award, Briefcase, MapPin, Pencil, MessageCircle } from "lucide-react";
-
 export default function HeroBanner({
   employee,
   user,
   navigate,
-  onToggleMessage,
+  showMessage,
+  setShowMessage,
+  Icon,
+  icons,
 }) {
   return (
-    <div className="relative mb-4 flex w-full items-center gap-6 overflow-hidden rounded-[20px] bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900 px-7 py-5 shadow-lg">
-
-      {/* Background Circles */}
-
-      <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/5" />
-
-      <div className="absolute bottom-[-60px] right-32 h-44 w-44 rounded-full bg-white/5" />
-
-      {/* Avatar */}
-
-      <div className="relative shrink-0">
-
-        <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white/30 bg-blue-100 shadow-lg">
-
-          <img
-            src={employee.avatar}
-            alt={employee.name}
-            className="h-full w-full object-cover"
+    <>
+      {/* Hero Banner */}
+      <div>
+        <div
+          style={{
+            background:
+              "linear-gradient(120deg,#1d4ed8 0%,#1e40af 55%,#1e3a8a 100%)",
+            borderRadius: 20,
+            padding: "24px 32px",
+            display: "flex",
+            alignItems: "center",
+            gap: 30,
+            marginBottom: 14,
+            position: "relative",
+            overflow: "hidden",
+            width: "100%",
+            boxShadow: "0 10px 24px rgba(37,99,235,0.16)",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: -70,
+              right: -70,
+              width: 260,
+              height: 260,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,.04)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: -50,
+              right: 130,
+              width: 180,
+              height: 180,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,.04)",
+            }}
           />
 
+          {/* Avatar */}
+          <div style={{ position: "relative", flexShrink: 0 }}>
+            <div
+              style={{
+                width: 86,
+                height: 86,
+                borderRadius: "50%",
+                overflow: "hidden",
+                border: "4px solid rgba(255,255,255,.25)",
+                boxShadow: "0 0 0 5px rgba(255,255,255,.08)",
+                background: "#dbeafe",
+              }}
+            >
+              <img
+                src="https://i.pravatar.cc/300?img=5"
+                alt="profile"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                position: "absolute",
+                bottom: 4,
+                right: 4,
+                width: 18,
+                height: 18,
+                borderRadius: "50%",
+                background: "#22c55e",
+                border: "3px solid #1d4ed8",
+              }}
+            />
+          </div>
+          {/* Name block */}
+          <div style={{ flex: 1 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                marginBottom: 6,
+              }}
+            >
+              <h1
+                style={{
+                  fontFamily: "'Sora',sans-serif",
+                  fontSize: 28,
+                  fontWeight: 800,
+                  color: "#fff",
+                  letterSpacing: "-0.5px",
+                }}
+              >
+                {employee.name}
+              </h1>
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 5,
+                  background: "rgba(255,255,255,.12)",
+                  color: "#bfdbfe",
+                  fontSize: 12,
+                  padding: "4px 10px",
+                  borderRadius: 99,
+                  fontWeight: 500,
+                }}
+              >
+                <Icon d={icons.award} size={13} /> Top Performer
+              </span>
+            </div>
+            <p
+              style={{
+                color: "#bfdbfe",
+                fontSize: 14,
+                fontWeight: 500,
+                marginBottom: 16,
+              }}
+            >
+              {employee.title}
+            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {[
+                { icon: "briefcase", label: employee.department },
+                { icon: "location", label: employee.location },
+              ].map(({ icon, label }) => (
+                <span
+                  key={label}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    background: "rgba(255,255,255,.12)",
+                    color: "#e0f2fe",
+                    fontSize: 13,
+                    padding: "6px 14px",
+                    borderRadius: 99,
+                    fontWeight: 500,
+                  }}
+                >
+                  <Icon d={icons[icon]} size={14} />
+                  {label}
+                </span>
+              ))}
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  background: "#22c55e22",
+                  color: "#86efac",
+                  fontSize: 13,
+                  padding: "6px 14px",
+                  borderRadius: 99,
+                  fontWeight: 500,
+                }}
+              >
+                <span
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: "50%",
+                    background: "#22c55e",
+                    display: "inline-block",
+                  }}
+                />
+                {employee.status}
+              </span>
+            </div>
+          </div>
+          {/* ID + actions */}
+          <div style={{ textAlign: "right", flexShrink: 0 }}>
+            <div
+              style={{
+                fontSize: 11,
+                color: "#93c5fd",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 4,
+              }}
+            >
+              Employee ID
+            </div>
+            <div
+              style={{
+                fontFamily: "'Sora',sans-serif",
+                fontSize: 26,
+                fontWeight: 800,
+                color: "#fff",
+                letterSpacing: "1px",
+              }}
+            >
+              {employee.employeeId}
+            </div>
+            <div
+              style={{
+                marginTop: 18,
+                display: "flex",
+                alignItems: "center",
+                gap: 18,
+                justifyContent: "flex-end",
+              }}
+            >
+              <button
+                onClick={() => navigate(`/employee/edit-employee/${user.id}`)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#ffffff",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                  opacity: 0.95,
+                }}
+              >
+                <Icon d={icons.edit} size={20} stroke={1.8} />
+              </button>
+
+              <div
+                style={{
+                  width: "1px",
+                  height: "24px",
+                  background: "rgba(255,255,255,0.22)",
+                }}
+              />
+
+              <button
+                onClick={() => setShowMessage(!showMessage)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#ffffff",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                  opacity: 0.95,
+                }}
+              >
+                <Icon d={icons.message} size={20} stroke={1.8} />
+              </button>
+            </div>
+          </div>
         </div>
 
-        <span className="absolute bottom-1 right-1 h-4 w-4 rounded-full border-[3px] border-blue-800 bg-green-500"></span>
-
-      </div>
-
-      {/* Profile */}
-
-      <div className="flex-1">
-
-        <div className="mb-2 flex items-center gap-4">
-
-          <h1 className="text-2xl font-extrabold text-white">
-
-            {employee.name}
-
-          </h1>
-
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-blue-100">
-
-            <Award size={14} />
-
-            Top Performer
-
-          </span>
-
-        </div>
-
-        <p className="mb-4 text-blue-100">
-
-          {employee.title}
-
-        </p>
-
-        <div className="flex flex-wrap gap-3">
-
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white">
-
-            <Briefcase size={15} />
-
-            {employee.department}
-
-          </span>
-
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white">
-
-            <MapPin size={15} />
-
-            {employee.location}
-
-          </span>
-
-          <span className="inline-flex items-center gap-2 rounded-full bg-green-500/20 px-4 py-2 text-sm text-green-200">
-
-            <span className="h-2 w-2 rounded-full bg-green-400"></span>
-
-            {employee.status}
-
-          </span>
-
-        </div>
-
-      </div>
-
-      {/* Right */}
-
-      <div className="text-right">
-
-        <p className="text-xs uppercase tracking-widest text-blue-200">
-
-          Employee ID
-
-        </p>
-
-        <h2 className="text-3xl font-extrabold text-white">
-
-          {employee.id}
-
-        </h2>
-
-        <div className="mt-5 flex justify-end gap-5">
-
-          <button
-            onClick={() =>
-              navigate(`/employee/edit-employee/${user.id}`)
-            }
-            className="text-white transition hover:scale-110"
+        {showMessage && (
+          <div
+            style={{
+              position: "absolute",
+              top: 110,
+              right: 30,
+              width: 300,
+              background: "#ffffff",
+              borderRadius: 18,
+              padding: 16,
+              boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+              zIndex: 100,
+            }}
           >
-            <Pencil size={20} />
-          </button>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 12,
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  margin: 0,
+                }}
+              >
+                Messages
+              </h3>
 
-          <div className="h-6 w-px bg-white/20"></div>
+              <button
+                onClick={() => setShowMessage(false)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: "#64748b",
+                  padding: 0,
+                }}
+              >
+                ✕
+              </button>
+            </div>
 
-          <button
-            onClick={onToggleMessage}
-            className="text-white transition hover:scale-110"
-          >
-            <MessageCircle size={20} />
-          </button>
+            <div
+              style={{
+                padding: 12,
+                background: "#f8fafc",
+                borderRadius: 12,
+                marginBottom: 10,
+              }}
+            >
+              <b>HR Team</b>
 
-        </div>
+              <p style={{ fontSize: 14 }}>Your payslip is available.</p>
+            </div>
 
+            <div
+              style={{
+                padding: 12,
+                background: "#f8fafc",
+                borderRadius: 12,
+              }}
+            >
+              <b>Manager</b>
+
+              <p style={{ fontSize: 14 }}>Please submit today's timesheet.</p>
+            </div>
+          </div>
+        )}
       </div>
-
-    </div>
+    </>
   );
 }

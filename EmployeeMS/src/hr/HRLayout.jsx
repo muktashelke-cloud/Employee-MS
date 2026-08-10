@@ -4,17 +4,19 @@ import TopNavbar from "../Components/TopNavbar";
 
 const HRLayout = () => {
   return (
-    <div className="flex min-h-screen w-full flex-col overflow-x-hidden bg-gray-100">
-      <TopNavbar />
+   <div className="flex min-h-screen bg-gray-100">
+    <Sidebar />
 
-      <div className="flex min-h-screen w-full bg-gray-100">
-        <Sidebar />
+    <div className="ml-[148px] flex flex-1 flex-col">
 
-        <div className="flex-1 p-6 pt-0 overflow-x-hidden">
-          <Outlet />
-        </div>
-      </div>
+        <TopNavbar />
+
+        <main className="flex-1 p-6">
+            <Outlet />
+        </main>
+
     </div>
+</div>
   );
 };
 
